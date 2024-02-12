@@ -2,6 +2,7 @@
 
 import {CheckboxInput} from "@/components/CheckBoxInput"
 import {InputWithLabel} from "@/components/InputWithLabel"
+import RedirectLink from "@/components/RedirectLink"
 import SelectInput from "@/components/SelectInput"
 import {Button} from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -54,7 +55,7 @@ export default function SignUp() {
           />
         </div>
 
-        <div className="flex items-center w-full md:flex-col mt-4 gap-3">
+        <div className="flex w-full md:flex-col mt-4 gap-3 justify-between">
           <div className="w-3/6 md:w-full">
             <InputWithLabel
               label="OTP Number"
@@ -63,8 +64,8 @@ export default function SignUp() {
               id="otpNumber"
             />
           </div>
-          <div className="w-3/6 md:w-full">
-            Click here Send OTP Verification
+          <div className="w-3/6 md:w-full mt-8">
+            <button type="button" className="text-[#00BBA8] text-[12px] font-semibold w-full text-right">Click here Send OTP Verification</button>
           </div>
         </div>
 
@@ -72,7 +73,7 @@ export default function SignUp() {
           <CheckboxInput label="Are you seller ? Then check here !" />
         </div>
 
-        <div className="flex items-center w-full md:flex-col mt-4 gap-2">
+        {/* <div className="flex items-center w-full md:flex-col mt-4 gap-2">
           <div className="w-2/6 md:w-full">
             <SelectInput
               placeHolder="select country"
@@ -118,9 +119,15 @@ export default function SignUp() {
             placeholder="password"
             id="password"
           />
-        </div>
+        </div> */}
 
         <Button className="w-full mt-8">Sign Up</Button>
+        <div className="w-full flex justify-between items-center mt-5">
+          <p className="text-[#787878] dark:text-[#C3C3C3] font-bold text-[12px]">
+             Already have an account ? 
+          </p>
+          <RedirectLink href="/login" LinkText="Sign In" />
+        </div>
       </div>
     </div>
   )
