@@ -18,7 +18,7 @@ export function InputWithLabel({
   ...props
 }: InputWithLabelProps) {
   return (
-    <div className={`grid w-full max-w-sm items-center gap-1.5 ${containerClass}`}>
+    <div className={`grid w-full items-center gap-1.5 ${containerClass}`}>
       <Label htmlFor={label} className="mb-1">
         {label}
       </Label>
