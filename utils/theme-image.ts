@@ -1,7 +1,7 @@
 'use client';
 import { StaticImageData } from 'next/image';
-import darkBg from '../public/images/auth-left-bg-dark.png';
-import lightBg from '../public/images/auth-left-bg-light.png';
+import darkBg from '../public/images/auth-dark-bg.png';
+import lightBg from '../public/images/auth-light-bg.png';
 import darkAuthIcon from '../public/icons/medmastero-dark.svg';
 import lightAuthIcon from '../public/icons/medmastero-light.svg';
 
