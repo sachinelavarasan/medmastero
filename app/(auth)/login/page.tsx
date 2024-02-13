@@ -44,7 +44,7 @@ export default function Login() {
           <h2 className="text-[28px] font-bold text-[#000000] dark:text-[#FFFFFF] md:text-[20px] pt-2">
             Welcome Back !
           </h2>
-          <p className="text-[#777777] dark:text-[#C3C3C3]  text-[16px] font-semibold pt-2 pb-10 md:text-[14px]">
+          <p className="text-[#777777] dark:text-[#C3C3C3]  text-[14px] font-semibold pt-2 pb-10 md:text-[14px]">
             Sign in to your account here
           </p>
 

@@ -13,6 +13,7 @@ const labelVariants = cva(
       variant: {
         default: 'dark:text-[#F2F2F2] text-[#0E0E0E]',
         destructive: 'text-destructive',
+        disabled: 'opacity-30',
       },
     },
     defaultVariants: {
