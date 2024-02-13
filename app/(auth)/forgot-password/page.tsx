@@ -5,9 +5,9 @@ import RedirectLink from '@/components/RedirectLink';
 import { Button } from '@/components/ui/button';
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import Image from 'next/image';
-import ForgotPasswordIcon from "@/public/icons/forgot-password.svg"
+import ForgotPasswordIcon from '@/public/icons/forgot-password.svg';
 
-export default function Login() {
+export default function ForgotPassword() {
   const [currentTheme] = useThemeData();
   return (
     <div className="h-full flex items-center justify-center">
@@ -30,14 +30,14 @@ export default function Login() {
         <p className="text-[#777777] dark:text-[#C3C3C3] text-center text-[16px] font-semibold pt-2 pb-10 md:text-[14px] max-w-md">
           Enter your email or phone number and we’ll send you an otp to reset your password
         </p>
-        <InputWithLabel
-          label="Email or Phone Number"
-          type="email"
-          placeholder="Enter your email or phone number"
-          id="email-signin"
-          containerClass="mb-4"
-        />
-        <InputWithLabel label="Password" type="password" placeholder="password" id="email-signin" />
+        <div className="w-full mt-5">
+          <InputWithLabel
+            label="Email or Phone Number"
+            type="email"
+            placeholder="Enter your email or phone number"
+            id="email-or-phone-number"
+          />
+        </div>
         <RedirectLink
           href="/reset-password"
           LinkText="Already having an OTP to reset your password ?"

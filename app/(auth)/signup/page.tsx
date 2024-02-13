@@ -111,7 +111,7 @@ export default function SignUp() {
         <div className="mt-4 grid w-full items-center gap-2">
           <Label>Shop Address</Label>
           <Textarea placeholder="Type your address here" id="message" />
-        </div>
+        </div> */}
         <div className="mt-4 w-full">
           <InputWithLabel
             label="Password"
@@ -119,7 +119,7 @@ export default function SignUp() {
             placeholder="password"
             id="password"
           />
-        </div> */}
+        </div> 
 
         <Button className="w-full mt-8">Sign Up</Button>
         <div className="w-full flex justify-between items-center mt-5">
