@@ -21,7 +21,9 @@ const InputWithLabel = React.forwardRef<HTMLInputElement, InputWithLabelProps>(
   ) => {
     return (
       <div className={`relative grid w-full items-center gap-1.5 pb-5 ${containerClass}`}>
-        <Label htmlFor={label} variant={error ? 'destructive' : 'default'}>
+        <Label
+          htmlFor={label}
+          variant={error ? 'destructive' : !props.disabled ? 'default' : 'disabled'}>
           {label}
         </Label>
         <Input

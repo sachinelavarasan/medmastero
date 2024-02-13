@@ -51,7 +51,7 @@ export default function SignUp() {
           <span className="text-[28px] font-bold text-[#000000] dark:text-[#FFFFFF] md:text-[24px] pt-1">
             Create Account
           </span>
-          <p className="text-[#777777] dark:text-[#C3C3C3] text-[16px] font-semibold pt-2 pb-2 max-w-sm text-center">
+          <p className="text-[#777777] dark:text-[#C3C3C3] text-[14px] font-semibold pt-2 pb-2 max-w-sm text-center">
             Let’s get Started. Are you ready to be part of something new ?
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -115,7 +115,7 @@ export default function SignUp() {
               <div className="w-3/6 md:w-full">
                 <FormField
                   control={control}
-                  name="phone"
+                  name="otp"
                   render={({ field }) => (
                     <InputWithLabel
                       {...field}

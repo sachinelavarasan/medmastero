@@ -26,3 +26,24 @@ export const SignUpSchema = z.object({
     message: 'Password should be atleast 8 characters',
   }),
 });
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email('The email you entered is invalid'),
+});
+
+export const ResetPasswordOtpSchema = z.object({
+  otp: z.string().length(6, {
+    message: 'Please enter your 6 digit otp',
+  }),
+});
+export const ResetPasswordSchema = z
+  .object({
+    password: z.string().min(8, {
+      message: 'Password should be atleast 8 characters',
+    }),
+    confirm_password: z.string(),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Passwords don't match",
+    path: ['confirm_password'],
+  });
