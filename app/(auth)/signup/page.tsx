@@ -37,7 +37,7 @@ export default function SignUp() {
   function onSubmit(data: z.infer<typeof SignUpSchema>) {
     alert(JSON.stringify(data, null, 2));
   }
-
+  console.log('first');
   return (
     <div className="h-full flex items-center justify-center">
       <div className="flex items-center justify-center flex-col dark:bg-[#0C1615] bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
@@ -47,6 +47,7 @@ export default function SignUp() {
             alt="auth icon"
             className="h-[70px] w-full md:h-[50px] md:w-[300px]"
             placeholder="empty"
+            priority
           />
           <span className="text-[28px] font-bold text-[#000000] dark:text-[#FFFFFF] md:text-[24px] pt-1">
             Create Account
@@ -66,7 +67,6 @@ export default function SignUp() {
                       label="Name"
                       type="text"
                       placeholder="Enter your name"
-                      id="name-signup"
                       error={!!errors?.name}
                       errorMessage={errors?.name?.message}
                     />
@@ -83,7 +83,6 @@ export default function SignUp() {
                       label="Email"
                       type="email"
                       placeholder="Enter your email"
-                      id="email-signup"
                       containerClass="mb-1"
                       error={!!errors?.email}
                       errorMessage={errors?.email?.message}
@@ -102,7 +101,6 @@ export default function SignUp() {
                     label="Phone Number"
                     type="text"
                     placeholder="Eg: +91XXXXXXXXXX"
-                    id="phonenumber-signup"
                     containerClass="mb-1"
                     error={!!errors?.phone}
                     errorMessage={errors?.phone?.message}
@@ -122,7 +120,6 @@ export default function SignUp() {
                       label="OTP"
                       type="text"
                       placeholder="Enter your OTP"
-                      id="otpnumber-signup"
                       containerClass="mb-1"
                       error={!!errors?.otp}
                       errorMessage={errors?.otp?.message}
@@ -192,7 +189,6 @@ export default function SignUp() {
                     label="Password"
                     type="password"
                     placeholder="password"
-                    id="password-signup"
                     error={!!errors?.password}
                     errorMessage={errors?.password?.message}
                   />

@@ -4,7 +4,10 @@ import { authMiddleware } from './middlewares/api/authMiddleware';
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  if (!authMiddleware(request)) {
+  if (!authMiddleware(request) && request.url.includes('/admin')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  if (!authMiddleware(request) && request.url.includes('/api')) {
     return new NextResponse('Unauthorized', {
       status: 401,
     });
@@ -15,5 +18,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/api/:path*'],
+  matcher: ['/api/:path*', '/admin/:path*'],
 };

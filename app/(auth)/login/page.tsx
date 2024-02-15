@@ -58,7 +58,6 @@ export default function Login() {
                   label="Email or Phone Number"
                   type="email"
                   placeholder="Email"
-                  id="email-signin"
                   containerClass="mb-1"
                   error={!!errors?.email}
                   errorMessage={errors?.email?.message}
@@ -74,7 +73,6 @@ export default function Login() {
                   label="Password"
                   type="password"
                   placeholder="password"
-                  id="password-signin"
                   error={!!errors?.password}
                   errorMessage={errors?.password?.message}
                 />

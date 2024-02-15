@@ -1,10 +1,9 @@
-export function authMiddleware(request: Request){
+export function authMiddleware(request: Request) {
+  const token = request.headers.get('authorization')?.split(' ')[1];
 
-    const token = request.headers.get("authorization")?.split(" ")[1];
+  if (token) {
+    return true;
+  }
 
-    if(token){
-        return true;
-    }
-
-    return false;
+  return false;
 }
