@@ -42,12 +42,12 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent
             side={'left'}
-            className="bg-[#FFFFFF] dark:bg-[#0C1615] border-[#E5E4E4] dark:border-[#132826] w-[20rem] sm:w-[18rem]">
+            className="bg-[#FFFFFF] dark:bg-[#0C1615] border-[#E5E4E4] dark:border-[#132826] w-[20rem] sm:w-[18rem] xs:w-[15rem]">
             <SheetHeader className="flex flex-row items-center justify-between space-y-0">
               <Image
                 src={currentTheme?.authIcon}
                 alt="auth icon"
-                className="h-full w-[220px]"
+                className="h-full w-[180px]"
                 placeholder="empty"
                 priority
               />
@@ -118,7 +118,7 @@ export default function Navbar() {
               </Link>
             </div>
             <SheetFooter className="px-4 absolute bottom-5 flex sm:justify-center w-full right-0 left-0">
-              <button className="bg-[#00BBA8] w-full py-2 rounded text-[#fff]" type="button">
+              <button className="bg-[#00BBA8] w-full py-1.5 rounded text-[#fff]" type="button">
                 <div>Contact Us</div>
               </button>
             </SheetFooter>
@@ -133,9 +133,9 @@ export default function Navbar() {
           priority
         />
       </div>
-      <div className="flex gap-8 items-center">
-        <Button className="rounded-[2.5rem]">Contact us</Button>
-
+      <div className="flex gap-5 items-center">
+        <Button className="rounded-[2.5rem] md:hidden h-8">Contact us</Button>
+        <Image src={commonIcon?.notificationIcon} alt="auth icon" placeholder="empty" priority />
         <DropdownMenu>
           <DropdownMenuTrigger className="focus-visible:outline-none">
             <Avatar className="border-[1.5px] border-[#008778] h-12 w-12">
