@@ -1,20 +1,23 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
+// import { useId } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { CheckboxInput } from '@/components/CheckBoxInput';
 import { InputWithLabel } from '@/components/InputWithLabel';
 import RedirectLink from '@/components/RedirectLink';
-import SelectInput from '@/components/SelectInput';
+// import SelectInput from '@/components/SelectInput';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+// import { Label } from '@/components/ui/label';
+// import { Textarea } from '@/components/ui/textarea';
+import { FormField } from '@/components/ui/form';
+
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { SignUpSchema } from '@/utils/schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
-import { useId } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { FormField } from '@/components/ui/form';
+
 
 export default function SignUp() {
   const [currentTheme] = useThemeData();

@@ -2,9 +2,11 @@
 
 import Image from 'next/image';
 import React from 'react';
+import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useThemeData } from '@/utils/hooks/useThemeData';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,15 +17,19 @@ import {
 } from '@/components/ui/dropdown-menu';
 import {
   Sheet,
+  SheetClose,
   SheetContent,
-  SheetDescription,
+  SheetFooter,
+  // SheetDescription,
   SheetHeader,
-  SheetTitle,
+  // SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Menu } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+// import { Input } from '@/components/ui/input';
+// import { Label } from '@/components/ui/label';
+
+import { useThemeData } from '@/utils/hooks/useThemeData';
+import { commonIcon } from '@/utils/theme-image';
 
 export default function Navbar() {
   const [currentTheme] = useThemeData();
@@ -37,20 +43,24 @@ export default function Navbar() {
           <SheetContent
             side={'left'}
             className="bg-[#FFFFFF] dark:bg-[#0C1615] border-[#E5E4E4] dark:border-[#132826] w-[20rem] sm:w-[18rem]">
-            <SheetHeader>
+            <SheetHeader className="flex flex-row items-center justify-between space-y-0">
               <Image
                 src={currentTheme?.authIcon}
                 alt="auth icon"
-                className="h-[40px] w-[150px]"
+                className="h-full w-[220px]"
                 placeholder="empty"
                 priority
               />
+              <SheetClose className="rounded opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-1 data-[state=open]:bg-secondary border-[#008778]">
+                <X className="h-4 w-4 text-[#008778]" />
+                <span className="sr-only">Close</span>
+              </SheetClose>
             </SheetHeader>
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-col gap-2 mt-4">
               <div>
                 <div className="flex flex-col items-center gap-2">
                   <div className="flex flex-col gap-4">
-                    <Avatar className="border-[1.5px] border-[#008778] h-20 w-20">
+                    <Avatar className="border-[1.5px] border-[#008778] h-16 w-16">
                       <AvatarImage
                         src="https://github.com/shadcn.png"
                         className="p-1 h-full w-full rounded-full"
@@ -59,33 +69,59 @@ export default function Navbar() {
                     </Avatar>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[#000000] dark:text-[#FFFFFF] text-[1.5rem] font-bold">
+                    <span className="text-[#000000] dark:text-[#FFFFFF] text-[1rem] font-bold text-center">
                       James bond
                     </span>
-                    <span className="text-[#787878] dark:text-[#C3C3C3] text-[1rem] font-normal mt-2">
+                    <span className="text-[#787878] dark:text-[#C3C3C3] text-[0.875rem] font-normal mt-2  text-center">
                       jamesbond@gmail.com
                     </span>
                   </div>
                 </div>
               </div>
               <DropdownMenuSeparator className="bg-[#E5E4E4] dark:bg-[#132826]" />
-              <button
-                className="h-[40px] focus-within:bg-[#E5E5E473] dark:focus-within:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium rounded-sm"
-                type="button">
+              <Link
+                className="flex items-center gap-2 h-[44px] focus-within:bg-[#E5E5E473] dark:focus-within:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium rounded-sm px-3"
+                href="/">
+                <Image
+                  src={commonIcon?.dropdownUserIcon}
+                  alt="auth icon"
+                  className="h-[20px] w-[20px]"
+                  placeholder="empty"
+                  priority
+                />
                 View profile
-              </button>
-              <button
-                className="h-[40px] focus-within:bg-[#E5E5E473] dark:focus-within:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium rounded-sm"
-                type="button">
+              </Link>
+              <Link
+                className="flex items-center gap-2 h-[44px] focus-within:bg-[#E5E5E473] dark:focus-within:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium rounded-sm px-3"
+                href="/">
+                <Image
+                  src={commonIcon?.dropdownCartIcon}
+                  alt="auth icon"
+                  className="h-[24px] w-[24px]"
+                  placeholder="empty"
+                  priority
+                />
                 Your orders
-              </button>
+              </Link>
               <DropdownMenuSeparator className="bg-[#E5E4E4]  dark:bg-[#132826]" />
-              <button
-                className="h-[44px] focus-within:bg-[#E5E5E473] dark:focus-within:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium rounded-sm"
-                type="button">
+              <Link
+                className="flex items-center gap-2 h-[44px] focus-within:bg-[#E5E5E473] dark:focus-within:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium rounded-sm px-3"
+                href="/">
+                <Image
+                  src={commonIcon?.LogoutIcon}
+                  alt="auth icon"
+                  className="h-[24px] w-[24px]"
+                  placeholder="empty"
+                  priority
+                />
                 Logout
-              </button>
+              </Link>
             </div>
+            <SheetFooter className="px-4 absolute bottom-5 flex sm:justify-center w-full right-0 left-0">
+              <button className="bg-[#00BBA8] w-full py-2 rounded text-[#fff]" type="button">
+                <div>Contact Us</div>
+              </button>
+            </SheetFooter>
           </SheetContent>
         </Sheet>
 
@@ -133,14 +169,35 @@ export default function Navbar() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-[#E5E4E4] dark:bg-[#132826]" />
-            <DropdownMenuItem className="h-[40px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium">
+            <DropdownMenuItem className="flex items-center gap-2 h-[40px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium">
+              <Image
+                src={commonIcon?.dropdownUserIcon}
+                alt="auth icon"
+                className="h-[20px] w-[20px]"
+                placeholder="empty"
+                priority
+              />
               View profile
             </DropdownMenuItem>
-            <DropdownMenuItem className="h-[40px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium">
+            <DropdownMenuItem className="flex items-center gap-2 h-[40px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium">
+              <Image
+                src={commonIcon?.dropdownCartIcon}
+                alt="auth icon"
+                className="h-[24px] w-[24px]"
+                placeholder="empty"
+                priority
+              />
               Your orders
             </DropdownMenuItem>
             <DropdownMenuSeparator className="bg-[#E5E4E4]  dark:bg-[#132826]" />
-            <DropdownMenuItem className="h-[44px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium">
+            <DropdownMenuItem className="flex items-center gap-2 h-[44px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium">
+              <Image
+                src={commonIcon?.LogoutIcon}
+                alt="auth icon"
+                className="h-[24px] w-[24px]"
+                placeholder="empty"
+                priority
+              />
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

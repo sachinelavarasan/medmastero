@@ -2,14 +2,15 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import Image from 'next/image';
+import { z } from 'zod';
+
 import { InputWithLabel } from '@/components/InputWithLabel';
 import RedirectLink from '@/components/RedirectLink';
 import { Button } from '@/components/ui/button';
-import { z } from 'zod';
 import { FormField } from '@/components/ui/form';
 
 import { useThemeData } from '@/utils/hooks/useThemeData';
-import Image from 'next/image';
 import { LoginSchema } from '@/utils/schema';
 
 export default function Login() {

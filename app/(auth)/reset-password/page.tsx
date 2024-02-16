@@ -3,25 +3,22 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
-
-import { InputWithLabel } from '@/components/InputWithLabel';
-import RedirectLink from '@/components/RedirectLink';
-import { Button } from '@/components/ui/button';
-
-import { useThemeData } from '@/utils/hooks/useThemeData';
-
-import ResetPasswordIcon from '@/public/icons/reset-password.svg';
-import VerifiedIconDark from '@/public/icons/success-dark.svg';
-import VerifiedIconLight from '@/public/icons/success-light.svg';
-import { ResetPasswordOtpSchema, ResetPasswordSchema } from '@/utils/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
+import { InputWithLabel } from '@/components/InputWithLabel';
+import { Button } from '@/components/ui/button';
 import { FormField } from '@/components/ui/form';
+// import RedirectLink from '@/components/RedirectLink';
+
+import { useThemeData } from '@/utils/hooks/useThemeData';
+import { ResetPasswordOtpSchema, ResetPasswordSchema } from '@/utils/schema';
+import { commonIcon } from '@/utils/theme-image';
 
 export default function ResetPassword() {
   const [currentTheme] = useThemeData();
-  const { theme } = useTheme();
+  // const { theme } = useTheme();
   const [isVerified, setIsVerified] = useState(false);
 
   const {
@@ -66,7 +63,7 @@ export default function ResetPassword() {
             placeholder="empty"
           />
           <Image
-            src={ResetPasswordIcon}
+            src={commonIcon.resetPasswordImg}
             alt="!"
             className="h-20 w-full md:h-[50px] md:w-[300px] mt-4"
             placeholder="empty"
@@ -98,7 +95,7 @@ export default function ResetPassword() {
               {isVerified ? (
                 <div className="flex ml-4 h-full items-center justify-end w-2/5 ">
                   <Image
-                    src={theme == 'dark' ? VerifiedIconDark : VerifiedIconLight}
+                    src={currentTheme.successTickIcon}
                     alt="!"
                     className="h-5 w-5"
                     placeholder="empty"

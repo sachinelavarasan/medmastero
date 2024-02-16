@@ -1,17 +1,18 @@
 'use client';
 
 import Image from 'next/image';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { InputWithLabel } from '@/components/InputWithLabel';
 import RedirectLink from '@/components/RedirectLink';
 import { Button } from '@/components/ui/button';
-import { useThemeData } from '@/utils/hooks/useThemeData';
-import ForgotPasswordIcon from '@/public/icons/forgot-password.svg';
-import { ForgotPasswordSchema } from '@/utils/schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { FormField } from '@/components/ui/form';
+
+import { useThemeData } from '@/utils/hooks/useThemeData';
+import { ForgotPasswordSchema } from '@/utils/schema';
+import { commonIcon } from '@/utils/theme-image';
 
 export default function ForgotPassword() {
   const [currentTheme] = useThemeData();
@@ -42,7 +43,7 @@ export default function ForgotPassword() {
             placeholder="empty"
           />
           <Image
-            src={ForgotPasswordIcon}
+            src={commonIcon.forgotPasswordImg}
             alt="!"
             className="h-24 w-full md:h-[50px] md:w-[300px] mt-3"
             placeholder="empty"

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useThemeData } from '../../utils/hooks/useThemeData';
+// import { useThemeData } from '../../utils/hooks/useThemeData';
 import { darkThemeData, lightThemeData } from '@/utils/theme-image';
 
 export default function AuthLayout({
