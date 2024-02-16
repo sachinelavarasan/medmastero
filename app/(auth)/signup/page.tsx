@@ -37,7 +37,6 @@ export default function SignUp() {
   function onSubmit(data: z.infer<typeof SignUpSchema>) {
     alert(JSON.stringify(data, null, 2));
   }
-  console.log('first');
   return (
     <div className="h-full flex items-center justify-center">
       <div className="flex items-center justify-center flex-col dark:bg-[#0C1615] bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">

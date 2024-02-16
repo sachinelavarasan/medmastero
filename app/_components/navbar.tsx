@@ -17,7 +17,7 @@ import {
 export default function Navbar() {
   const [currentTheme] = useThemeData();
   return (
-    <header className="flex h-[70px] bg-[#FFFFFF] dark:bg-[#0C1615] items-center justify-between border-[#E5E4E4] dark:border-[#132826] border-b-[1px] shadow-sm px-3">
+    <header className="fixed flex w-full h-[70px] bg-[#FFFFFF] dark:bg-[#0C1615] items-center justify-between border-[#E5E4E4] dark:border-[#132826] border-b-[1px] shadow-sm px-3">
       <div>
         <Image
           src={currentTheme?.authIcon}

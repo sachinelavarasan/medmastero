@@ -6,7 +6,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
       <h2 className="text-[30px] font-bold text-teal-600">MedMastero</h2>
-      <div className="flex mx-2">
+      <div className="flex mx-2 pt-8">
         <Link href="/login" className="mx-2">
           Login
         </Link>
