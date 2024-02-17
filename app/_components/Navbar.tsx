@@ -20,16 +20,15 @@ import {
   SheetClose,
   SheetContent,
   SheetFooter,
-  // SheetDescription,
   SheetHeader,
-  // SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 // import { Input } from '@/components/ui/input';
-// import { Label } from '@/components/ui/label';
+//import { Label } from '@/components/ui/label';
 
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { commonIcon } from '@/utils/theme-image';
+import ThemeSwitch from '@/components/ThemeSwitch';
 
 export default function Navbar() {
   const [currentTheme] = useThemeData();
@@ -42,7 +41,7 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent
             side={'left'}
-            className="bg-[#FFFFFF] dark:bg-[#0C1615] border-[#E5E4E4] dark:border-[#132826] w-[20rem] sm:w-[18rem] xs:w-[15rem]">
+            className="bg-[#FFFFFF] dark:bg-[#0C1615] border-[#E5E4E4] dark:border-[#132826] w-[25rem] sm:w-[20rem] xs:w-[16rem]">
             <SheetHeader className="flex flex-row items-center justify-between space-y-0">
               <Image
                 src={currentTheme?.authIcon}
@@ -117,6 +116,8 @@ export default function Navbar() {
                 Logout
               </Link>
             </div>
+            <DropdownMenuSeparator className="bg-[#E5E4E4]  dark:bg-[#132826] my-4" />
+            <ThemeSwitch />
             <SheetFooter className="px-4 absolute bottom-5 flex sm:justify-center w-full right-0 left-0">
               <button className="bg-[#00BBA8] w-full py-1.5 rounded text-[#fff]" type="button">
                 <div>Contact Us</div>
@@ -134,8 +135,17 @@ export default function Navbar() {
         />
       </div>
       <div className="flex gap-5 items-center">
-        <Button className="rounded-[2.5rem] md:hidden h-8">Contact us</Button>
-        <Image src={commonIcon?.notificationIcon} alt="auth icon" placeholder="empty" priority />
+        <Button className="rounded-[2.5rem] md:hidden h-9">Contact us</Button>
+        <div className="relative">
+          <Image src={commonIcon?.notificationIcon} alt="auth icon" placeholder="empty" priority />
+          <span className="absolute flex h-2.5 w-2.5 top-0 -right-1">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#EA393E] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#EA393E]"></span>
+          </span>
+        </div>
+        <div className="md:hidden">
+          <ThemeSwitch />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger className="focus-visible:outline-none">
             <Avatar className="border-[1.5px] border-[#008778] h-12 w-12">

@@ -5,7 +5,6 @@ import React from 'react';
 import { Input, InputProps } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-
 interface InputWithLabelProps extends InputProps {
   label?: string;
   type: string;
@@ -34,10 +33,10 @@ const InputWithLabel = React.forwardRef<HTMLInputElement, InputWithLabelProps>(
           placeholder={placeholder}
           ref={ref}
           {...props}
-          className={`${error ? 'border-destructive' : ''}`}
+          className={`${error ? 'border-[#EA393E]' : ''}`}
         />
         <span
-          className={`absolute opacity-0 bottom-0 text-[0.75rem] text-destructive overflow-hidden text-ellipsis whitespace-nowrap max-w-full ${error ? 'opacity-100 transition-opacity duration-200 ease-in-out' : ''} `}>
+          className={`absolute opacity-0 bottom-0 text-[0.75rem] text-[#EA393E] overflow-hidden text-ellipsis whitespace-nowrap max-w-full ${error ? 'opacity-100 transition-opacity duration-200 ease-in-out' : ''} `}>
           {errorMessage}
         </span>
       </div>
