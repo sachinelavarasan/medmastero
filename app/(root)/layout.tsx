@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import Navbar from '../_components/Navbar';
+import Navbar from '../shared/Navbar';
 
 export default function MainLayout({
   children,

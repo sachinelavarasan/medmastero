@@ -11,7 +11,7 @@ function Profile() {
     <div className="px-[46px] w-full h-full">
       <header className="flex justify-between items-center border-[#E5E4E4] dark:border-[#132826] border-b-[1.5px] pb-4">
         <div>
-          <h1 className="text-[24px] font-bold">Profile</h1>
+          <h1 className="text-[24px] font-bold dark:text-[#FFF]">Profile</h1>
           <span className="text-[#777777] text-[16px] font-semibold">
             Update your personal details and your photo here
           </span>
