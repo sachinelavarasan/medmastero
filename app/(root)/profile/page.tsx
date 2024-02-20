@@ -9,24 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PersonalForm from './_components/personal';
 import CompanyForm from './_components/company';
 
-
 function Profile() {
   return (
     <div className="px-[46px] w-full h-full">
-      <header className="flex justify-between items-center border-[#E5E4E4] dark:border-[#132826] border-b-[1.5px] pb-4">
-        <div>
-          <h1 className="text-[24px] font-bold dark:text-[#FFF]">Profile</h1>
-          <span className="text-[#777777] text-[16px] font-semibold">
-            Update your personal details and your photo here
-          </span>
-        </div>
-        <div className="flex gap-4">
-          <Button variant="cancel" type="button">
-             Cancel
-          </Button>
-          <ButtonWithLoader label='Save Changes' />
-        </div>
-      </header>
       <Tabs defaultValue="personal" className="w-full mt-4">
         <TabsList className="grid w-[400px] h-full grid-cols-2 bg-transparent border-[#00BBA8] border-[1.5px] rounded-[10px]">
           <TabsTrigger

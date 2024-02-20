@@ -1,5 +1,12 @@
 import { z } from 'zod';
 import validator from 'validator';
+import errorMap from 'zod/locales/en.js';
+
+enum Gender {
+  Male = 'male',
+  Famale = 'female',
+  Transgender = 'transgender',
+}
 
 export const LoginSchema = z.object({
   email: z.string().email('The email you entered is invalid'),
@@ -94,20 +101,40 @@ export const ProfileSchema = z.object({
       (value) => validator.isMobilePhone(value, ['en-IN'], { strictMode: true }),
       'Type your valid phone number',
     ),
-  otp: z
+  address: z
+    .string()
+    .transform((value) => value.replaceAll(' ', ''))
+    .pipe(
+      z
+        .string()
+        .min(3, {
+          message: 'Please enter your full address',
+        })
+        .optional(),
+    ),
+  pincode: z
     .string()
     .transform((value) => value.replaceAll(' ', ''))
     .pipe(
       z.string().length(6, {
-        message: 'Please enter your 6 digit otp',
+        message: 'Please enter your pincode',
       }),
     ),
-  password: z
-    .string()
-    .transform((value) => value.replaceAll(' ', ''))
-    .pipe(
-      z.string().min(8, {
-        message: 'Password should be atleast 8 characters',
-      }),
-    ),
+  state: z.string(),
+  district: z.string(),
+  gender: z
+    .nativeEnum(Gender, {
+      errorMap: (issue, _ctx) => {
+        switch (issue.code) {
+          case 'invalid_type':
+            return { message: 'Please choose correct gender' };
+          case 'invalid_enum_value':
+            return { message: 'Please choose correct gender' };
+          default:
+            return { message: 'Please choose correct gender' };
+        }
+      },
+    })
+    .or(z.literal(''))
+    .optional(),
 });
