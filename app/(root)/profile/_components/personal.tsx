@@ -139,6 +139,8 @@ function PersonalForm() {
                       ]}
                       label="District"
                       id="district"
+                      onValueChange={field.onChange} 
+                      defaultValue={field.value}
                     />
                   )}
                 />

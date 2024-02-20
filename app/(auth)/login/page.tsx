@@ -34,8 +34,8 @@ export default function Login() {
 
   return (
     <div className="h-full flex items-center justify-center">
-      <div className="flex items-center justify-center flex-col dark:bg-[#0C1615] bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
-        <div className="flex flex-col items-center p-6">
+      <div className="flex items-center justify-center flex-col dark:bg-[#0C1615] bg-[#FFFFFF] p-3 rounded-[16px] shadow-md ">
+        <div className="flex flex-col items-center p-6 w-full">
           <Image
             src={currentTheme?.authIcon}
             alt="auth icon"
@@ -59,7 +59,7 @@ export default function Login() {
                   label="Email or Phone Number"
                   type="email"
                   placeholder="Email"
-                  containerClass="mb-1"
+                  containerClass="mb-1 w-72 md:w-auto"
                   error={!!errors?.email}
                   errorMessage={errors?.email?.message}
                 />

@@ -1,10 +1,14 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Label } from '@radix-ui/react-label';
 import React from 'react';
+
+import { Button } from '@/components/ui/button';
+import { ButtonWithLoader } from '@/components/Button';
+// import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+// import { Label } from '@radix-ui/react-label';
+
 import PersonalForm from './_components/personal';
 import CompanyForm from './_components/company';
+
 
 function Profile() {
   return (
@@ -18,9 +22,9 @@ function Profile() {
         </div>
         <div className="flex gap-4">
           <Button variant="cancel" type="button">
-            Cancel
+             Cancel
           </Button>
-          <Button type="submit">Save Changes</Button>
+          <ButtonWithLoader label='Save Changes' />
         </div>
       </header>
       <Tabs defaultValue="personal" className="w-full mt-4">
