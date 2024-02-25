@@ -13,15 +13,15 @@ function Profile() {
   return (
     <div className="px-[46px] w-full h-full">
       <Tabs defaultValue="personal" className="w-full mt-4">
-        <TabsList className="grid w-[400px] h-full grid-cols-2 bg-transparent border-[#00BBA8] border-[1.5px] rounded-[10px]">
+        <TabsList className="grid w-[400px] h-full grid-cols-2 bg-transparent border-app_green border-[1.5px] rounded-[10px]">
           <TabsTrigger
             value="personal"
-            className="text-[16px] text-[#777777] dark:text-[#C3C3C3] font-bold data-[state=active]:bg-[#00BBA8] data-[state=active]:text-[#FFFFFF] dark:data-[state=active]:text-[#FFFFFF]">
+            className="text-[16px] text-[#777777] dark:text-[#C3C3C3] font-bold data-[state=active]:bg-app_green data-[state=active]:text-[#FFFFFF] dark:data-[state=active]:text-[#FFFFFF]">
             Personal
           </TabsTrigger>
           <TabsTrigger
             value="company"
-            className="text-[16px] text-[#777777] dark:text-[#C3C3C3] font-bold data-[state=active]:bg-[#00BBA8] data-[state=active]:text-[#FFFFFF] dark:data-[state=active]:text-[#FFFFFF]">
+            className="text-[16px] text-[#777777] dark:text-[#C3C3C3] font-bold data-[state=active]:bg-app_green data-[state=active]:text-[#FFFFFF] dark:data-[state=active]:text-[#FFFFFF]">
             Company
           </TabsTrigger>
         </TabsList>

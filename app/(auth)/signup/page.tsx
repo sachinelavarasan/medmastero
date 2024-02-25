@@ -18,7 +18,6 @@ import { FormField } from '@/components/ui/form';
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { SignUpSchema } from '@/utils/schema';
 
-
 export default function SignUp() {
   const [currentTheme] = useThemeData();
 
@@ -42,7 +41,7 @@ export default function SignUp() {
   }
   return (
     <div className="h-full flex items-center justify-center">
-      <div className="flex items-center justify-center flex-col dark:bg-[#0C1615] bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
+      <div className="flex items-center justify-center flex-col dark:bg-app_dark_bg bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
         <div className="flex flex-col items-center p-6">
           <Image
             src={currentTheme?.authIcon}
@@ -132,7 +131,7 @@ export default function SignUp() {
               <div className="w-3/6 md:w-full mt-5">
                 <button
                   type="button"
-                  className="text-[#00BBA8] text-[12px] font-semibold w-full text-right">
+                  className="text-app_green text-[12px] font-semibold w-full text-right">
                   Click here Send OTP Verification
                 </button>
               </div>

@@ -33,7 +33,7 @@ import ThemeSwitch from '@/components/ThemeSwitch';
 export default function Navbar() {
   const [currentTheme] = useThemeData();
   return (
-    <header className="fixed flex w-full h-[70px] bg-[#FFFFFF] dark:bg-[#0C1615] items-center justify-between border-[#E5E4E4] dark:border-[#132826] border-b-[1px] shadow-sm px-3">
+    <header className="fixed flex w-full h-[70px] bg-[#FFFFFF] dark:bg-app_dark_bg items-center justify-between border-[#E5E4E4] dark:border-[#132826] border-b-[1px] shadow-sm px-3">
       <div>
         <Sheet>
           <SheetTrigger className="hidden md:block">
@@ -41,7 +41,7 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent
             side={'left'}
-            className="bg-[#FFFFFF] dark:bg-[#0C1615] border-[#E5E4E4] dark:border-[#132826] w-[25rem] sm:w-[20rem] xs:w-[16rem]">
+            className="bg-[#FFFFFF] dark:bg-app_dark_bg border-[#E5E4E4] dark:border-[#132826] w-[25rem] sm:w-[20rem] xs:w-[16rem]">
             <SheetHeader className="flex flex-row items-center justify-between space-y-0">
               <Image
                 src={currentTheme?.authIcon}
@@ -119,7 +119,7 @@ export default function Navbar() {
             <DropdownMenuSeparator className="bg-[#E5E4E4]  dark:bg-[#132826] my-4" />
             <ThemeSwitch />
             <SheetFooter className="px-4 absolute bottom-5 flex sm:justify-center w-full right-0 left-0">
-              <button className="bg-[#00BBA8] w-full py-1.5 rounded text-[#fff]" type="button">
+              <button className="bg-app_green w-full py-1.5 rounded text-[#fff]" type="button">
                 <div>Contact Us</div>
               </button>
             </SheetFooter>
@@ -156,7 +156,7 @@ export default function Navbar() {
               <AvatarFallback className="p-1 h-full w-full rounded-full">CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="mr-4 bg-[#FFFFFF] dark:bg-[#0C1615] border-[#E5E4E4] border-[1px] dark:border-[#132826] shadow-md">
+          <DropdownMenuContent className="mr-4 bg-[#FFFFFF] dark:bg-app_dark_bg border-[#E5E4E4] border-[1px] dark:border-[#132826] shadow-md">
             <DropdownMenuLabel>
               <div className="flex items-center gap-2">
                 <div>

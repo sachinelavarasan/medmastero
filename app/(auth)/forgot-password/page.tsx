@@ -34,7 +34,7 @@ export default function ForgotPassword() {
 
   return (
     <div className="h-full flex items-center justify-center">
-      <div className="flex items-center justify-center flex-col dark:bg-[#0C1615] bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
+      <div className="flex items-center justify-center flex-col dark:bg-app_dark_bg bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
         <div className="flex flex-col items-center p-6">
           <Image
             src={currentTheme?.authIcon}

@@ -37,7 +37,7 @@ const SelectInput = React.forwardRef<HTMLSelectProps, SelectInputProps>(
             className={`${selectTriggerClassName} text-[#787878] ${error ? 'border-[#EA393E]' : ''}`}>
             <SelectValue placeholder={placeHolder} />
           </SelectTrigger>
-          <SelectContent className="SelectInputContent border-[#ADADAD] bg-[#FFFFFF] dark:bg-[#0C1615]">
+          <SelectContent className="SelectInputContent border-app_input_border bg-[#FFFFFF] dark:bg-app_dark_bg">
             {options.map((item: { value: string; label: string; id?: string }) => (
               <SelectItem key={item.value} value={item.value.toString()} className="cursor-pointer">
                 {item.label}

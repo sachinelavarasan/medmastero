@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning={true}>
+    <html lang="en" suppressHydrationWarning={true}>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -33,7 +33,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} bg-[#FFFFFF] dark:bg-[#0C1615]`}>
+      <body className={`${inter.className} bg-[#FFFFFF] dark:bg-app_dark_bg`}>
         <ThemeWrapper>{children}</ThemeWrapper>
       </body>
     </html>

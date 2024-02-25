@@ -54,7 +54,7 @@ export default function ResetPassword() {
 
   return (
     <div className="h-full flex items-center justify-center">
-      <div className="flex items-center justify-center flex-col dark:bg-[#0C1615] bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
+      <div className="flex items-center justify-center flex-col dark:bg-app_dark_bg bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
         <div className="flex flex-col items-center p-6">
           <Image
             src={currentTheme?.authIcon}
@@ -100,7 +100,7 @@ export default function ResetPassword() {
                     className="h-5 w-5"
                     placeholder="empty"
                   />
-                  <div className="ml-1.5 text-[#00BBA8] font-semibold">Verified</div>
+                  <div className="ml-1.5 text-app_green font-semibold">Verified</div>
                 </div>
               ) : null}
             </div>
