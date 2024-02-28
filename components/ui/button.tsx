@@ -18,6 +18,8 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         cancel:
           'text-[#787878] bg-transparent dark:text-[#C3C3C3] border-[#E9E9E9] text-[14px] font-bold border-[1.5px]',
+        outline_danger:
+        'border border-input bg-transparent border-[#EA393E] text-[#EA393E] border-[1.5px] font-bold',
       },
       size: {
         default: 'h-[44px] px-4 py-2',
