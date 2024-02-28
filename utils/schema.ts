@@ -138,3 +138,58 @@ export const ProfileSchema = z.object({
     .or(z.literal(''))
     .optional(),
 });
+
+export const ShopProfileSchema = z.object({
+  shopName: z
+    .string()
+    .transform((value) => value.replaceAll(' ', ''))
+    .pipe(
+      z.string().min(3, {
+        message: 'Shop Name should be atleast 3 letters',
+      }),
+    ),
+  branchCount: z.coerce.number().optional(),
+  gstNumber: z
+    .string()
+    .transform((value) => value.replaceAll(' ', ''))
+    .pipe(
+      z.string().length(6, {
+        message: 'Please enter your GST number',
+      }),
+    ),
+  branches: z.array(
+    z.object({
+      branchName: z.string(),
+      branchMailId: z.string(),
+      branchWebsite: z.string(),
+      branchLocation: z.string(),
+      branchPhoneNo: z
+        .string()
+        .refine(
+          (value) => validator.isMobilePhone(value, ['en-IN'], { strictMode: true }),
+          'Type your valid phone number',
+        ),
+      branchAddress: z
+        .string()
+        .transform((value) => value.replaceAll(' ', ''))
+        .pipe(
+          z
+            .string()
+            .min(3, {
+              message: 'Please enter your full address',
+            })
+            .optional(),
+        ),
+      branchPincode: z
+        .string()
+        .transform((value) => value.replaceAll(' ', ''))
+        .pipe(
+          z.string().length(6, {
+            message: 'Please enter your pincode',
+          }),
+        ),
+      branchState: z.string(),
+      branchDistrict: z.string(),
+    }),
+  ),
+});

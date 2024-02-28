@@ -43,7 +43,12 @@ function PersonalForm() {
     <div className="w-full">
       <header className="flex justify-between items-center border-[#E5E4E4] dark:border-[#132826] border-b-[1.5px] py-4">
         <div>
-          <h1 className="text-[24px] font-bold dark:text-[#FFF]">Profile</h1>
+          <div className="flex flex-row items-center">
+            <h1 className="text-[24px] font-bold dark:text-[#FFF]">Personal Profile</h1>
+            <div className="ml-2 bg-[#008778] px-2 rounded-full flex justify-center items-center">
+              <span className="text-[0.75rem] font-bold text-[#FFF]">Seller</span>
+            </div>
+          </div>
           <span className="text-[#777777] text-[16px] font-semibold">
             Update your personal details and your photo here
           </span>

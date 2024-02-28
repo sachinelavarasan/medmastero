@@ -22,7 +22,7 @@ function Profile() {
           <TabsTrigger
             value="company"
             className="text-[16px] text-[#777777] dark:text-[#C3C3C3] font-bold data-[state=active]:bg-app_green data-[state=active]:text-[#FFFFFF] dark:data-[state=active]:text-[#FFFFFF]">
-            Company
+            Shop
           </TabsTrigger>
         </TabsList>
         <TabsContent value="personal">
