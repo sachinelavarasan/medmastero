@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import './styles/globals.css';
 
 import ThemeWrapper from '../utils/providers/theme-provider';
+import { SessionProvider } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,7 +35,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} bg-[#FFFFFF] dark:bg-app_dark_bg`}>
-        <ThemeWrapper>{children}</ThemeWrapper>
+        <SessionProvider>
+          <ThemeWrapper>{children}</ThemeWrapper>
+        </SessionProvider>
       </body>
     </html>
   );
