@@ -3,8 +3,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 // import { useId } from 'react';
-import { useForm } from 'react-hook-form';
+import { get, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import { app } from '@/config';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
 import { CheckboxInput } from '@/components/CheckBoxInput';
 import { InputWithLabel } from '@/components/InputWithLabel';
@@ -21,10 +25,17 @@ import { SignUpSchema } from '@/utils/schema';
 export default function SignUp() {
   const [currentTheme] = useThemeData();
 
+  const [otpSent, setOtpSent] = useState(false);
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [otpVerificationStatus, setOtpVerificationStatus] = useState(false);
+
   const {
     formState: { errors },
     control,
     handleSubmit,
+    getValues,
+    getFieldState,
+    trigger,
   } = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -39,6 +50,65 @@ export default function SignUp() {
   function onSubmit(data: z.infer<typeof SignUpSchema>) {
     alert(JSON.stringify(data, null, 2));
   }
+
+  const auth = getAuth(app);
+  const router = useRouter();
+
+  useEffect(() => {
+    // Create a new instance of RecaptchaVerifier
+    const recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      size: 'invisible',
+      callback: (response: any) => {
+        // Handle reCAPTCHA callback
+        console.log('reCAPTCHA verification successful:', response);
+      },
+      'expand-callback': () => {
+        // Handle expand callback
+      },
+    });
+
+    // Assign recaptchaVerifier to window object
+    (window as any).recaptchaVerifier = recaptchaVerifier;
+  }, [auth]);
+
+  // const handlePhoneNumberChange = (e) =>{
+  //   setPhoneNumber(e.target.value);
+  // }
+
+  const handleSentOtp = async () => {
+    trigger('phone');
+    try {
+      if (!getFieldState('phone').invalid) {
+        const phoneNumber = getValues('phone');
+        const otpSentFlag = localStorage.getItem('otpSentFlag_' + phoneNumber);
+        if (otpSentFlag) {
+          alert('OTP already sent for this number');
+          return;
+        }
+        const confirmation = await signInWithPhoneNumber(
+          auth,
+          phoneNumber,
+          (window as any).recaptchaVerifier,
+        );
+        setConfirmationResult(confirmation);
+        localStorage.setItem('otpSentFlag_' + phoneNumber, 'true');
+        setOtpSent(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleOTPSubmit = async () => {
+    try {
+      const otp = getValues('otp');
+      await confirmationResult.confirm(otp);
+      setOtpVerificationStatus(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="h-full flex items-center justify-center">
       <div className="flex items-center justify-center flex-col dark:bg-app_dark_bg bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
@@ -92,26 +162,39 @@ export default function SignUp() {
                 />
               </div>
             </div>
-            <div className="w-full">
-              <FormField
-                control={control}
-                name="phone"
-                render={({ field }) => (
-                  <InputWithLabel
-                    {...field}
-                    label="Phone Number"
-                    type="text"
-                    placeholder="Eg: +91XXXXXXXXXX"
-                    containerClass="mb-1"
-                    error={!!errors?.phone}
-                    errorMessage={errors?.phone?.message}
-                  />
-                )}
-              />
-            </div>
-
             <div className="flex w-full md:flex-col gap-3 justify-between">
-              <div className="w-3/6 md:w-full">
+              <div className="w-4/5 md:w-full">
+                <FormField
+                  control={control}
+                  name="phone"
+                  render={({ field }) => (
+                    <InputWithLabel
+                      {...field}
+                      label="Phone Number"
+                      type="text"
+                      placeholder="Eg: +91XXXXXXXXXX"
+                      containerClass="mb-1"
+                      error={!!errors?.phone}
+                      errorMessage={errors?.phone?.message}
+                      disabled={otpVerificationStatus || otpSent}
+                    />
+                  )}
+                />
+              </div>
+              {!otpVerificationStatus ? (
+                <div className="w-1/5 md:w-full flex justify-center items-center">
+                  <button
+                    type="button"
+                    className="text-app_green text-[12px] font-semibold w-full text-right"
+                    onClick={handleSentOtp}>
+                    Send OTP
+                  </button>
+                </div>
+              ) : null}
+            </div>
+            {!otpSent ? <div id="recaptcha-container"></div> : null}
+            <div className="w-full flex md:flex-col gap-3 justify-between">
+              <div className="w-4/5 md:w-full">
                 <FormField
                   control={control}
                   name="otp"
@@ -121,20 +204,28 @@ export default function SignUp() {
                       label="OTP"
                       type="text"
                       placeholder="Enter your OTP"
-                      containerClass="mb-1"
                       error={!!errors?.otp}
                       errorMessage={errors?.otp?.message}
+                      disabled={otpVerificationStatus}
                     />
                   )}
                 />
               </div>
-              <div className="w-3/6 md:w-full mt-5">
-                <button
-                  type="button"
-                  className="text-app_green text-[12px] font-semibold w-full text-right">
-                  Click here Send OTP Verification
-                </button>
+              <div className="w-1/5 md:w-full flex justify-center items-center">
+                {otpSent && getValues('otp') && otpVerificationStatus ? (
+                  <button
+                    type="button"
+                    className="text-app_green text-[12px] font-semibold w-full text-right"
+                    onClick={handleOTPSubmit}>
+                    Verify here
+                  </button>
+                ) : null}
               </div>
+              {otpVerificationStatus ? (
+                <div className="w-full text-app_green font-semibold text-[14px] mb-4">
+                  OTP verified successfully
+                </div>
+              ) : null}
             </div>
 
             <div className="w-full">
