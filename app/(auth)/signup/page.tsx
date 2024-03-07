@@ -2,25 +2,22 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-// import { useId } from 'react';
 import { get, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { app } from '@/config';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CheckboxInput } from '@/components/CheckBoxInput';
 import { InputWithLabel } from '@/components/InputWithLabel';
 import RedirectLink from '@/components/RedirectLink';
-// import SelectInput from '@/components/SelectInput';
-import { Button } from '@/components/ui/button';
-// import { Label } from '@/components/ui/label';
-// import { Textarea } from '@/components/ui/textarea';
 import { FormField } from '@/components/ui/form';
+import { ButtonWithLoader } from '@/components/Button';
 
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { SignUpSchema } from '@/utils/schema';
+import { gstVerification } from '@/app/actions/gst_verification';
 
 export default function SignUp() {
   const [currentTheme] = useThemeData();
@@ -28,14 +25,17 @@ export default function SignUp() {
   const [otpSent, setOtpSent] = useState(false);
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const [otpVerificationStatus, setOtpVerificationStatus] = useState(false);
+  const [gstVerificationStatus, setGstVerificationStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
-    formState: { errors },
+    formState: { errors, isValid },
     control,
     handleSubmit,
     getValues,
     getFieldState,
     trigger,
+    watch,
   } = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -44,12 +44,12 @@ export default function SignUp() {
       password: '',
       phone: '',
       otp: '',
+      is_seller: false,
+      gstin: '', //Test GST Number - 18AAACR5055K1Z6
     },
   });
 
-  function onSubmit(data: z.infer<typeof SignUpSchema>) {
-    alert(JSON.stringify(data, null, 2));
-  }
+  const watchShowGst = watch('is_seller', false);
 
   const auth = getAuth(app);
   const router = useRouter();
@@ -60,7 +60,7 @@ export default function SignUp() {
       size: 'invisible',
       callback: (response: any) => {
         // Handle reCAPTCHA callback
-        console.log('reCAPTCHA verification successful:', response);
+        console.log('reCAPTCHA verification successful:');
       },
       'expand-callback': () => {
         // Handle expand callback
@@ -70,10 +70,6 @@ export default function SignUp() {
     // Assign recaptchaVerifier to window object
     (window as any).recaptchaVerifier = recaptchaVerifier;
   }, [auth]);
-
-  // const handlePhoneNumberChange = (e) =>{
-  //   setPhoneNumber(e.target.value);
-  // }
 
   const handleSentOtp = async () => {
     trigger('phone');
@@ -108,6 +104,28 @@ export default function SignUp() {
       console.error(error);
     }
   };
+
+  const verifyGST = async () => {
+    if (!getValues('is_seller') || getFieldState('gstin').invalid) {
+      console.log(getValues('is_seller'), getFieldState('gstin').invalid);
+      trigger('gstin');
+      return false;
+    }
+
+    try {
+      const gstin = getValues('gstin');
+      let response = await gstVerification(gstin);
+      const { data } = JSON.parse(response);
+      setGstVerificationStatus(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  function onSubmit(data: z.infer<typeof SignUpSchema>) {
+    alert(JSON.stringify(data, null, 2));
+    setIsLoading(false);
+  }
 
   return (
     <div className="h-full flex items-center justify-center">
@@ -194,7 +212,7 @@ export default function SignUp() {
             </div>
             {!otpSent ? <div id="recaptcha-container"></div> : null}
             <div className="w-full flex md:flex-col gap-3 justify-between">
-              <div className="w-4/5 md:w-full">
+              <div className="w-2/5 md:w-full">
                 <FormField
                   control={control}
                   name="otp"
@@ -211,8 +229,8 @@ export default function SignUp() {
                   )}
                 />
               </div>
-              <div className="w-1/5 md:w-full flex justify-center items-center">
-                {otpSent && getValues('otp') && otpVerificationStatus ? (
+              <div className="w-3/5 md:w-full flex justify-center items-center">
+                {otpSent && watch('otp') && !otpVerificationStatus ? (
                   <button
                     type="button"
                     className="text-app_green text-[12px] font-semibold w-full text-right"
@@ -220,57 +238,64 @@ export default function SignUp() {
                     Verify here
                   </button>
                 ) : null}
+                {otpVerificationStatus ? (
+                  <div className="w-full text-app_green font-semibold text-[14px] mb-2">
+                    OTP verified successfully
+                  </div>
+                ) : null}
               </div>
-              {otpVerificationStatus ? (
-                <div className="w-full text-app_green font-semibold text-[14px] mb-4">
-                  OTP verified successfully
-                </div>
-              ) : null}
             </div>
 
             <div className="w-full">
-              <CheckboxInput label="Are you seller ? Then check here !" />
+              <FormField
+                control={control}
+                name="is_seller"
+                render={({ field }) => (
+                  <CheckboxInput
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    label="Are you seller ? Then check here !"
+                    disabled={!!gstVerificationStatus}
+                  />
+                )}
+              />
+            </div>
+            <div
+              className={`flex mt-4 w-full items-center ${watchShowGst ? 'block' : 'hidden'} md:flex-col gap-3`}>
+              <div className="w-3/5 md:w-full">
+                <FormField
+                  control={control}
+                  name="gstin"
+                  render={({ field }) => (
+                    <InputWithLabel
+                      {...field}
+                      label="GST Number"
+                      type="text"
+                      placeholder="Your shop GST number"
+                      error={!!errors?.gstin}
+                      errorMessage={errors?.gstin?.message}
+                      disabled={!!gstVerificationStatus}
+                    />
+                  )}
+                />
+              </div>
+              <div className="w-2/5 md:w-full">
+                {!gstVerificationStatus && (
+                  <button
+                    type="button"
+                    className="text-app_green text-[12px] font-semibold w-full text-right"
+                    onClick={verifyGST}>
+                    Verify here
+                  </button>
+                )}
+                {gstVerificationStatus ? (
+                  <div className="w-full text-app_green font-semibold text-[14px] mb-2">
+                    GST verified successfully
+                  </div>
+                ) : null}
+              </div>
             </div>
 
-            {/* <div className="flex items-center w-full md:flex-col mt-4 gap-2">
-          <div className="w-2/6 md:w-full">
-            <SelectInput
-              placeHolder="select country"
-              options={[
-                {label: "India", value: "1", id: useId()},
-                {label: "USA", value: "2", id: useId()},
-              ]}
-              label="Country"
-              id="country"
-            />
-          </div>
-          <div className="w-2/6 md:w-full">
-            <SelectInput
-              placeHolder="select state"
-              options={[
-                {label: "Tamil nadu", value: "1", id: useId()},
-                {label: "Karnataka", value: "2", id: useId()},
-              ]}
-              label="State"
-              id="state"
-            />
-          </div>
-          <div className="w-2/6 md:w-full">
-            <SelectInput
-              placeHolder="select district"
-              options={[
-                {label: "Karur", value: "1", id: useId()},
-                {label: "Coimbatore", value: "2", id: useId()},
-              ]}
-              label="District"
-              id="district"
-            />
-          </div>
-        </div>
-        <div className="mt-4 grid w-full items-center gap-2">
-          <Label>Shop Address</Label>
-          <Textarea placeholder="Type your address here" id="message" />
-        </div> */}
             <div className="mt-4 w-full">
               <FormField
                 control={control}
@@ -287,16 +312,18 @@ export default function SignUp() {
                 )}
               />
             </div>
-
-            <Button className="w-full mt-2" type="submit">
-              Sign Up
-            </Button>
+            <ButtonWithLoader
+              className="w-full mt-2 font-semibold text-[0.875rem]"
+              type="submit"
+              label="SIGN UP"
+              isLoading={isLoading}
+            />
           </form>
           <div className="w-full flex justify-between items-center mt-5">
             <p className="text-[#787878] dark:text-[#C3C3C3] font-bold text-[12px]">
               Already have an account ?
             </p>
-            <RedirectLink href="/login" LinkText="Sign In" />
+            <RedirectLink href="/login" LinkText="SIGN IN" />
           </div>
         </div>
       </div>

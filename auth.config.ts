@@ -7,10 +7,13 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      let adminRoutes = ['/admin'];
+      let adminRoutes = ['/admin'],
+        publicRoute = ['/signup', '/login', '/forgot-password', '/reset-password'];
       const isLoggedIn = !!auth?.user;
       const isAdminDashboard = adminRoutes.includes(nextUrl.pathname);
-      if (isAdminDashboard) {
+      if (publicRoute.includes(nextUrl.pathname)) {
+        return true;
+      } else if (isAdminDashboard) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
