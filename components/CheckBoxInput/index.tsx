@@ -13,7 +13,7 @@ export function CheckboxInput({ label, ...props }: CheckBoxInputProps) {
       <Checkbox {...props} id={label} />
       <Label
         htmlFor={label}
-        className="text-sm font-bold leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#777777] dark:text-app_input_border ml-2.5">
+        className="text-[14px] font-semibold leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#777777] dark:text-app_input_border ml-2.5">
         {label}
       </Label>
     </div>
