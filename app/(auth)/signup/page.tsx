@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { get, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { app } from '@/config';
@@ -129,7 +129,7 @@ export default function SignUp() {
 
   return (
     <div className="h-full flex items-center justify-center">
-      <div className="flex items-center justify-center flex-col dark:bg-app_dark_bg bg-[#FFFFFF] p-3 rounded-[16px] shadow-md">
+      <div className="flex items-center justify-center flex-col dark:bg-app_dark_bg bg-[#FFFFFF] p-3 rounded-[16px] shadow-md max-w-[600px]">
         <div className="flex flex-col items-center p-6">
           <Image
             src={currentTheme?.authIcon}
@@ -180,8 +180,8 @@ export default function SignUp() {
                 />
               </div>
             </div>
-            <div className="flex w-full md:flex-col gap-3 justify-between">
-              <div className="w-4/5 md:w-full">
+            <div className="flex w-full gap-3">
+              <div className="w-4/6">
                 <FormField
                   control={control}
                   name="phone"
@@ -200,19 +200,19 @@ export default function SignUp() {
                 />
               </div>
               {!otpVerificationStatus ? (
-                <div className="w-1/5 md:w-full flex justify-center items-center">
+                <div className="w-2/6 flex justify-end items-center">
                   <button
                     type="button"
-                    className="text-app_green text-[12px] font-semibold w-full text-right"
+                    className="w-fit hover:bg-app_green/90 rounded-[2px] flex items-center p-1 dark:text-[#fff] text-app_green hover:text-[#fff] md:justify-end"
                     onClick={handleSentOtp}>
-                    Send OTP
+                    <span className="text-[12px] font-semibold text-center">Send OTP</span>
                   </button>
                 </div>
               ) : null}
             </div>
             {!otpSent ? <div id="recaptcha-container"></div> : null}
-            <div className="w-full flex md:flex-col gap-3 justify-between">
-              <div className="w-2/5 md:w-full">
+            <div className="w-full flex gap-3">
+              <div className="w-4/6">
                 <FormField
                   control={control}
                   name="otp"
@@ -229,17 +229,17 @@ export default function SignUp() {
                   )}
                 />
               </div>
-              <div className="w-3/5 md:w-full flex justify-center items-center">
-                {otpSent && watch('otp') && !otpVerificationStatus ? (
+              <div className="w-2/6 flex justify-end items-center">
+                {!otpSent && !watch('otp') && !otpVerificationStatus ? (
                   <button
                     type="button"
-                    className="text-app_green text-[12px] font-semibold w-full text-right"
+                    className="w-fit hover:bg-app_green/90 rounded-[2px] flex items-center p-1 dark:text-[#fff] text-app_green hover:text-[#fff] md:justify-end"
                     onClick={handleOTPSubmit}>
-                    Verify here
+                    <span className="text-[12px] font-semibold text-center">Verify here</span>
                   </button>
                 ) : null}
                 {otpVerificationStatus ? (
-                  <div className="w-full text-app_green font-semibold text-[14px] mb-2">
+                  <div className="w-full text-app_green font-semibold text-[14px] mb-2 text-right">
                     OTP verified successfully
                   </div>
                 ) : null}
@@ -260,42 +260,43 @@ export default function SignUp() {
                 )}
               />
             </div>
-            <div
-              className={`flex mt-4 w-full items-center ${watchShowGst ? 'block' : 'hidden'} md:flex-col gap-3`}>
-              <div className="w-3/5 md:w-full">
-                <FormField
-                  control={control}
-                  name="gstin"
-                  render={({ field }) => (
-                    <InputWithLabel
-                      {...field}
-                      label="GST Number"
-                      type="text"
-                      placeholder="Your shop GST number"
-                      error={!!errors?.gstin}
-                      errorMessage={errors?.gstin?.message}
-                      disabled={!!gstVerificationStatus}
-                    />
-                  )}
-                />
-              </div>
-              <div className="w-2/5 md:w-full">
-                {!gstVerificationStatus && (
-                  <button
-                    type="button"
-                    className="text-app_green text-[12px] font-semibold w-full text-right"
-                    onClick={verifyGST}>
-                    Verify here
-                  </button>
-                )}
-                {gstVerificationStatus ? (
-                  <div className="w-full text-app_green font-semibold text-[14px] mb-2">
-                    GST verified successfully
-                  </div>
-                ) : null}
-              </div>
-            </div>
+            {watchShowGst ? (
+              <div className="flex mt-4 w-full items-center gap-3">
+                <div className="w-4/6">
+                  <FormField
+                    control={control}
+                    name="gstin"
+                    render={({ field }) => (
+                      <InputWithLabel
+                        {...field}
+                        label="GST Number"
+                        type="text"
+                        placeholder="Your shop GST number"
+                        error={!!errors?.gstin}
+                        errorMessage={errors?.gstin?.message}
+                        disabled={!!gstVerificationStatus}
+                      />
+                    )}
+                  />
+                </div>
 
+                <div className="w-2/6 flex justify-end items-center">
+                  {!gstVerificationStatus && (
+                    <button
+                      type="button"
+                      className="w-fit hover:bg-app_green/90 rounded-[2px] flex items-center p-1 dark:text-[#fff] text-app_green hover:text-[#fff]"
+                      onClick={verifyGST}>
+                      <span className="text-[12px] font-semibold text-center">Verify here</span>
+                    </button>
+                  )}
+                  {gstVerificationStatus ? (
+                    <div className="w-full text-app_green font-semibold text-[14px] mb-2 text-right">
+                      GST verified successfully
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
             <div className="mt-4 w-full">
               <FormField
                 control={control}
