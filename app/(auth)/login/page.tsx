@@ -7,17 +7,17 @@ import { z } from 'zod';
 
 import { InputWithLabel } from '@/components/InputWithLabel';
 import RedirectLink from '@/components/RedirectLink';
-import { Button } from '@/components/ui/button';
 import { FormField } from '@/components/ui/form';
 
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { LoginSchema } from '@/utils/schema';
+import { ButtonWithLoader } from '@/components/Button';
 
 export default function Login() {
   const [currentTheme] = useThemeData();
 
   const {
-    formState: { errors },
+    formState: { errors, isValid },
     control,
     handleSubmit,
   } = useForm<z.infer<typeof LoginSchema>>({
@@ -85,16 +85,20 @@ export default function Login() {
               LinkText="Forgot Password ?"
               className="mt-5 w-full"
             />
-            <Button className="w-full mt-5" type="submit">
-              Login
-            </Button>
+            <ButtonWithLoader
+              className="w-full mt-2 font-semibold text-[0.875rem]"
+              type="submit"
+              label="SIGN IN"
+              disabled={isValid}
+              isLoading
+            />
           </form>
 
           <div className="w-full flex justify-between items-center mt-5">
             <p className="text-[#787878] dark:text-[#C3C3C3] font-bold text-[12px]">
               Don’t have an account ?
             </p>
-            <RedirectLink href="/signup" LinkText="Sign up" />
+            <RedirectLink href="/signup" LinkText="SIGN UP" />
           </div>
         </div>
       </div>

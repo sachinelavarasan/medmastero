@@ -13,39 +13,59 @@ export const LoginSchema = z.object({
   password: z.string(),
 });
 
-export const SignUpSchema = z.object({
-  email: z.string().email('The email you entered is invalid'),
-  name: z
-    .string()
-    .transform((value) => value.replaceAll(' ', ''))
-    .pipe(
-      z.string().min(3, {
-        message: 'Name should be atleast 3 letters',
-      }),
-    ),
-  phone: z
-    .string()
-    .refine(
-      (value) => validator.isMobilePhone(value, ['en-IN'], { strictMode: true }),
-      'Type your valid phone number',
-    ),
-  otp: z
-    .string()
-    .transform((value) => value.replaceAll(' ', ''))
-    .pipe(
-      z.string().length(6, {
-        message: 'Please enter your 6 digit otp',
-      }),
-    ),
-  password: z
-    .string()
-    .transform((value) => value.replaceAll(' ', ''))
-    .pipe(
-      z.string().min(8, {
-        message: 'Password should be atleast 8 characters',
-      }),
-    ),
-});
+export const SignUpSchema = z
+  .object({
+    email: z.string().email('The email you entered is invalid'),
+    name: z
+      .string()
+      .transform((value) => value.replaceAll(' ', ''))
+      .pipe(
+        z.string().min(3, {
+          message: 'Name should be atleast 3 letters',
+        }),
+      ),
+    phone: z
+      .string()
+      .refine(
+        (value) => validator.isMobilePhone(value, ['en-IN'], { strictMode: true }),
+        'Type your valid phone number',
+      ),
+    otp: z
+      .string()
+      .transform((value) => value.replaceAll(' ', ''))
+      .pipe(
+        z.string().length(6, {
+          message: 'Please enter your 6 digit otp',
+        }),
+      ),
+    is_seller: z.boolean().default(false).optional(),
+    gstin: z.string().transform((value) => value.replaceAll(' ', '')),
+    password: z
+      .string()
+      .transform((value) => value.replaceAll(' ', ''))
+      .pipe(
+        z.string().min(8, {
+          message: 'Password should be atleast 8 characters',
+        }),
+      ),
+  })
+  .refine(
+    (data) => {
+      const isSeller = data.is_seller;
+      if (!isSeller) {
+        return true;
+      }
+      if (data.gstin) {
+        const c1 = data.gstin.length === 15;
+        return c1;
+      }
+      return false;
+    },
+    {
+      message: 'Enter valid GST Number',
+      path: ['gstin'],
+    },
+  );
 
 export const ForgotPasswordSchema = z.object({
   email: z.string().email('The email you entered is invalid'),
