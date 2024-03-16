@@ -1,5 +1,7 @@
 import type { NextAuthConfig } from 'next-auth';
 
+const publicRoutes = ['/login', '/signup', '/forgot-password', '/reset-password'];
+
 export const authConfig = {
   pages: {
     signIn: '/login',
@@ -23,7 +25,9 @@ export const authConfig = {
         return false;
       } else if (isLoggedIn) {
         // Redirecting authenticated users to the dashboard if they attempt to access authentication-related pages like login/signup
-        const isOnAuth = nextUrl.pathname === '/login' || nextUrl.pathname === '/signup';
+        const isOnAuth = publicRoutes.includes(nextUrl.pathname);
+        if (nextUrl.pathname === '/') return Response.redirect(new URL('/admin', nextUrl));
+
         if (isOnAuth) return Response.redirect(new URL('/admin', nextUrl));
         return true;
       }
