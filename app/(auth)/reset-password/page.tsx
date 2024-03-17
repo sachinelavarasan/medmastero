@@ -15,7 +15,6 @@ import { FormField } from '@/components/ui/form';
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { ResetPasswordOtpSchema, ResetPasswordSchema } from '@/utils/schema';
 import { commonIcon } from '@/utils/theme-image';
-import { sendVerificationEmail } from '@/app/actions/gst_verification';
 
 export default function ResetPassword() {
   const [currentTheme] = useThemeData();
@@ -47,7 +46,6 @@ export default function ResetPassword() {
 
   async function onSubmitOtp(data: z.infer<typeof ResetPasswordOtpSchema>) {
     alert(JSON.stringify(data, null, 2));
-    await sendVerificationEmail();
   }
 
   function onSubmitPassword(data: z.infer<typeof ResetPasswordSchema>) {
