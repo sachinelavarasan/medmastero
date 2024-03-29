@@ -2,8 +2,9 @@
 
 import { signIn } from '@/auth';
 import { axiosInstance } from '@/lib/axios';
-import { isAxiosError } from 'axios';
 import { AuthError } from 'next-auth';
+import { action } from '@/lib/safe-action';
+import { ForgotPasswordSchema } from '@/utils/schema';
 
 export async function authenticate(prevState: string | undefined, formData: FormData) {
   try {
@@ -21,12 +22,12 @@ export async function authenticate(prevState: string | undefined, formData: Form
   }
 }
 
-export async function resetPassword(email: string) {
+export const resetPassword = action(ForgotPasswordSchema, async ({ email }) => {
   const url = `${process.env.API_ENDPOINT}/api/auth/verification?email=${email}`;
   try {
     const { data } = await axiosInstance.get(url);
     return data;
-  } catch (error) {
-    if (isAxiosError(error)) throw error;
+  } catch (error: any) {
+    return error.response.data;
   }
-}
+});

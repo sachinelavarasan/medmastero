@@ -89,7 +89,7 @@ export default function Login() {
               className="w-full mt-2 font-semibold text-[0.875rem]"
               type="submit"
               label="SIGN IN"
-              disabled={isValid}
+              disabled={!isValid}
               // isLoading
             />
           </form>
