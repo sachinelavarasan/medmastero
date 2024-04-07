@@ -27,6 +27,8 @@ export const user = pgTable('user', {
   us_is_deleted:smallint('us_is_deleted').default(0),  
   us_type: integer("us_type").references(() => userType.ut_id),
   us_verification_code: varchar("us_verification_code"),
+  us_password: varchar("us_password"),
+  us_password_salt: varchar("us_password_salt")
 });
 
 export const shop = pgTable("shop", {
