@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useAction } from 'next-safe-action/hook';
 
 import { InputWithLabel } from '@/components/InputWithLabel';
 import RedirectLink from '@/components/RedirectLink';
@@ -14,14 +15,19 @@ import { ForgotPasswordSchema } from '@/utils/schema';
 import { commonIcon } from '@/utils/theme-image';
 import { ButtonWithLoader } from '@/components/Button';
 import { resetPassword } from '@/app/actions/authentication';
-import { isAxiosError } from 'axios';
 
 export default function ForgotPassword() {
   const [currentTheme] = useThemeData();
+  const {
+    execute,
+    status,
+    result: { data },
+  } = useAction(resetPassword);
 
   const {
     formState: { errors },
     control,
+    setError,
     handleSubmit,
   } = useForm<z.infer<typeof ForgotPasswordSchema>>({
     resolver: zodResolver(ForgotPasswordSchema),
@@ -30,12 +36,14 @@ export default function ForgotPassword() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof ForgotPasswordSchema>) {
-    //alert(JSON.stringify(data, null, 2));
-    try {
-      let res = await resetPassword(data.email);
-    } catch (error: any) {
-      console.log(error);
+  function onSubmit(formValues: z.infer<typeof ForgotPasswordSchema>) {
+    execute(formValues);
+    if (data?.error) {
+      setError('email', {
+        message: data.error,
+      });
+    } else if (data?.response) {
+      console.log(data.response);
     }
   }
 
