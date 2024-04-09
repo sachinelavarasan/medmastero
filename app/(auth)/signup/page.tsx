@@ -18,6 +18,7 @@ import { ButtonWithLoader } from '@/components/Button';
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { SignUpSchema } from '@/utils/schema';
 import { gstVerification } from '@/app/actions/gst_verification';
+import { signUp } from '@/app/actions/authentication';
 
 export default function SignUp() {
   const [currentTheme] = useThemeData();
@@ -122,9 +123,13 @@ export default function SignUp() {
     }
   };
 
-  function onSubmit(data: z.infer<typeof SignUpSchema>) {
-    alert(JSON.stringify(data, null, 2));
+  async function onSubmit(formData: z.infer<typeof SignUpSchema>) {
+    // alert(JSON.stringify(formData, null, 2));
     setIsLoading(false);
+    // sending the formdata values to create a user
+    let response = await signUp(formData);
+    console.log("response",response);
+    // // const { data } = JSON.parse(response);
   }
 
   return (
@@ -230,7 +235,7 @@ export default function SignUp() {
                 />
               </div>
               <div className="w-2/6 flex justify-end items-center">
-                {!otpSent && !watch('otp') && !otpVerificationStatus ? (
+                {otpSent && watch('otp') && !otpVerificationStatus ? (
                   <button
                     type="button"
                     className="w-fit hover:bg-app_green/90 rounded-[2px] flex items-center p-1 dark:text-[#fff] text-app_green hover:text-[#fff] md:justify-end"

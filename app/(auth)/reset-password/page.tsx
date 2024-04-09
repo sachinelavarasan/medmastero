@@ -44,9 +44,9 @@ export default function ResetPassword() {
     },
   });
 
-  async function onSubmitOtp(data: z.infer<typeof ResetPasswordOtpSchema>) {
-    alert(JSON.stringify(data, null, 2));
-  }
+  // async function onSubmitOtp(data: z.infer<typeof ResetPasswordOtpSchema>) {
+  //   alert(JSON.stringify(data, null, 2));
+  // }
 
   function onSubmitPassword(data: z.infer<typeof ResetPasswordSchema>) {
     alert(JSON.stringify(data, null, 2));
@@ -71,10 +71,10 @@ export default function ResetPassword() {
           <h2 className="text-[28px] font-bold text-[#000000] dark:text-[#FFFFFF] md:text-[20px] pt-4">
             Reset Password
           </h2>
-          <p className="text-[#777777] dark:text-[#C3C3C3] text-center text-[14px] font-semibold py-2 md:text-[14px] max-w-sm">
-            We have sent an OTP number to you email or Phone number
-          </p>
-          <form onSubmit={handleSubmit(onSubmitOtp)} className="w-full">
+          {/* <p className="text-[#777777] dark:text-[#C3C3C3] text-center text-[14px] font-semibold py-2 md:text-[14px] max-w-sm">
+            We have sent an reset password link to you email
+          </p> */}
+          {/* <form onSubmit={handleSubmit(onSubmitOtp)} className="w-full">
             <div className="flex w-full items-center mt-4">
               <FormField
                 control={control}
@@ -109,9 +109,9 @@ export default function ResetPassword() {
                 Verify
               </Button>
             ) : null}
-          </form>
-          <form onSubmit={passHandleSubmit(onSubmitPassword)} className="w-full">
-            {isVerified ? (
+          </form> */}
+          <form onSubmit={passHandleSubmit(onSubmitPassword)} className="w-full mt-4">
+            {/* {isVerified ? ( */}
               <div className="w-full">
                 <div className="mt-1 w-full">
                   <FormField
@@ -151,7 +151,7 @@ export default function ResetPassword() {
                   Update Password
                 </Button>
               </div>
-            ) : null}
+            {/* ) : null} */}
           </form>
         </div>
       </div>
