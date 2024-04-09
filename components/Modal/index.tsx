@@ -18,10 +18,10 @@ interface ModalProps {
   buttonLabel?: string;
   title: string;
   subTitle?: string;
-  bodyContent: ReactElement;
+  children: ReactElement;
 }
 
-export function Modal({ button ,buttonLabel, title , subTitle , bodyContent}: ModalProps) {
+export function Modal({ button ,buttonLabel, title , subTitle , children}: ModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,7 +35,7 @@ export function Modal({ button ,buttonLabel, title , subTitle , bodyContent}: Mo
           :null}
         </DialogHeader>
         <div className="flex items-center justify-center">
-          {bodyContent}
+          {children}
         </div>
         <DialogFooter className="flex justify-end flex-col items-end">
           <DialogClose asChild>

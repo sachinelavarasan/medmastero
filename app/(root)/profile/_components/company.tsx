@@ -355,41 +355,39 @@ function CompanyForm() {
                                         <span className="px-1 py-2">View all</span>
                                       </button>
                                     }
-                                    title="Pictures"
-                                    bodyContent={
-                                      <div>
-                                        <Carousel
-                                          opts={{
-                                            align: 'start',
-                                          }}
-                                          className="w-full max-w-sm">
-                                          <CarouselContent>
-                                            {branchImages.map((img, index) => (
-                                              <CarouselItem
-                                                key={index}
-                                                className="md:basis-1/2 lg:basis-1/3">
-                                                <div className="p-1">
-                                                  <Card>
-                                                    <CardContent className="flex aspect-square items-center justify-center p-6">
-                                                      <Image
-                                                        src={img.imageUrl}
-                                                        alt="auth icon"
-                                                        className="p-2 w-full h-full relative"
-                                                        placeholder="empty"
-                                                        priority
-                                                      />
-                                                    </CardContent>
-                                                  </Card>
-                                                </div>
-                                              </CarouselItem>
-                                            ))}
-                                          </CarouselContent>
-                                          <CarouselPrevious />
-                                          <CarouselNext />
-                                        </Carousel>
-                                      </div>
-                                    }
-                                  />
+                                    title="Pictures">
+                                    <div>
+                                      <Carousel
+                                        opts={{
+                                          align: 'start',
+                                        }}
+                                        className="w-full max-w-sm">
+                                        <CarouselContent>
+                                          {branchImages.map((img, index) => (
+                                            <CarouselItem
+                                              key={index}
+                                              className="md:basis-1/2 lg:basis-1/3">
+                                              <div className="p-1">
+                                                <Card>
+                                                  <CardContent className="flex aspect-square items-center justify-center p-6">
+                                                    <Image
+                                                      src={img.imageUrl}
+                                                      alt="auth icon"
+                                                      className="p-2 w-full h-full relative"
+                                                      placeholder="empty"
+                                                      priority
+                                                    />
+                                                  </CardContent>
+                                                </Card>
+                                              </div>
+                                            </CarouselItem>
+                                          ))}
+                                        </CarouselContent>
+                                        <CarouselPrevious />
+                                        <CarouselNext />
+                                      </Carousel>
+                                    </div>
+                                  </Modal>
                                 ) : null}
                               </div>
                             ) : null}
