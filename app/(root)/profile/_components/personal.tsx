@@ -15,6 +15,9 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 import { ButtonWithLoader } from '@/components/Button';
+import { InputFile } from '@/components/InputFile';
+import { Modal } from '@/components/Modal';
+import FileUpload from './file-upload';
 
 function PersonalForm() {
   const {
@@ -247,6 +250,7 @@ function PersonalForm() {
             <AvatarImage src="https://github.com/shadcn.png" className="h-full w-full" />
             <AvatarFallback className="h-full w-full">CN</AvatarFallback>
           </Avatar>
+          <FileUpload className="mt-4" />
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export const authConfig = {
   // Configuring callbacks for handling authorization logic during authentication flow.
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
+      const isLoggedIn = !auth?.user;
 
       // Determining if the user is currently on the dashboard
       const isOnDashboard = nextUrl.pathname.startsWith('/admin');

@@ -6,11 +6,15 @@ import { StaticImageData } from 'next/image';
 import darkBg from '../public/images/auth-dark-bg.png';
 import darkAuthIcon from '../public/icons/app-logo-dark.svg';
 import succesTickDarkIcon from '../public/icons/success-dark.svg';
+import uploadImageIcon from '@/public/icons/upload-image.svg';
+import uploadCloudDarkIcon from '@/public/icons/upload-cloud-dark.svg';
 
 // light theme icons
 import lightBg from '../public/images/auth-light-bg.png';
 import lightAuthIcon from '../public/icons/app-logo-light.svg';
 import succesTickLightIcon from '../public/icons/success-light.svg';
+import uploadImageLightIcon from '@/public/icons/upload-image-light.svg';
+import uploadCloudLightIcon from '@/public/icons/upload-cloud-light.svg';
 
 // common icon
 import notificationIcon from '../public/icons/notification.svg';
@@ -26,7 +30,8 @@ export interface ThemeDataProps {
   authBgImg: StaticImageData;
   authIcon: StaticImageData;
   successTickIcon: StaticImageData;
-
+  fileUploadIcon: StaticImageData;
+  uploadCloudIcon: StaticImageData;
 }
 // Common Icons and Images type interface
 export interface CommonDataProps {
@@ -43,14 +48,18 @@ export interface CommonDataProps {
 export const darkThemeData: ThemeDataProps = {
   authBgImg: darkBg,
   authIcon: darkAuthIcon,
-  successTickIcon: succesTickDarkIcon
+  successTickIcon: succesTickDarkIcon,
+  fileUploadIcon: uploadImageIcon,
+  uploadCloudIcon: uploadCloudDarkIcon,
 };
 
 // light theme icons
 export const lightThemeData: ThemeDataProps = {
   authBgImg: lightBg,
   authIcon: lightAuthIcon,
-  successTickIcon: succesTickLightIcon
+  successTickIcon: succesTickLightIcon,
+  fileUploadIcon: uploadImageLightIcon,
+  uploadCloudIcon: uploadCloudLightIcon,
 };
 
 // common icons and images
@@ -61,6 +70,5 @@ export const commonIcon: CommonDataProps = {
   resetPasswordImg: resetPasswordImg,
   dropdownUserIcon: dropdownUserIcon,
   LogoutIcon: LogoutIcon,
-  dropdownCartIcon: dropdownCartIcon
+  dropdownCartIcon: dropdownCartIcon,
 };
-

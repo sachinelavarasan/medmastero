@@ -4,13 +4,13 @@ import React from 'react';
 
 import { Button, ButtonProps } from '../ui/button';
 import { LucideLoader } from 'lucide-react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 
 interface ButtonWithLoaderProps extends ButtonProps {
   label: string;
   className?: string;
   isLoading?: boolean;
-  icon?: string;
+  icon?: string | StaticImageData;
   disabled?: boolean;
 }
 
