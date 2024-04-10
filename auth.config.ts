@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from 'next-auth';
 
 const publicRoutes = ['/login', '/signup', '/forgot-password', '/reset-password'];
+const privateRoutes = ['/admin', '/profile'];
 
 export const authConfig = {
   pages: {
@@ -13,13 +14,13 @@ export const authConfig = {
       const isLoggedIn = !auth?.user;
 
       // Determining if the user is currently on the dashboard
-      const isOnDashboard = nextUrl.pathname.startsWith('/admin');
+      const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
 
       if (!isLoggedIn && nextUrl.pathname === '/') {
         return Response.redirect(new URL('/login', nextUrl));
       }
       // Handling authorization logic based on user status and location
-      else if (isOnDashboard) {
+      else if (isPrivateRoute) {
         // Redirecting unauthenticated users to the login page when attempting to access dashboard-related pages
         if (isLoggedIn) return true;
         return false;

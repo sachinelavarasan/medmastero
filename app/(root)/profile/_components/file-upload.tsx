@@ -41,12 +41,14 @@ function getImageData(event: ChangeEvent<HTMLInputElement>) {
 const FileUpload = ({ className }: { className: string }) => {
   const [currentTheme] = useThemeData();
   const [preview, setPreview] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const [uploads, setUploads] = useState<FileList>();
   return (
-    <Dialog>
-      <DialogTrigger asChild className={className}>
-        <Button variant="outline">Change Profile</Button>
-      </DialogTrigger>
+    <Dialog open={isOpen}>
+      <Button variant="outline" className={className} onClick={() => setIsOpen(true)}>
+        Change Profile
+      </Button>
+
       <DialogContent className="dark:bg-app_dark_bg bg-[#FFFFFF] rounded-[8px] p-0 border-app_dark_bg max-w-[600px]">
         <DialogHeader className="dark:bg-[#132826] h-[70px] rounded-t-[8px] flex flex-row justify-between p-5 border-[#00BBA8] border-b-[1px] dark:border-opacity-50">
           <DialogTitle className="text-left text-[#00BBA8] font-bold text-[20px]">
@@ -92,11 +94,10 @@ const FileUpload = ({ className }: { className: string }) => {
         </div>
         <DialogFooter className="dark:bg-[#132826] h-[86px] rounded-b-[8px] flex flex-row p-5 justify-end border-[#00BBA8] border-t-[1px] dark:border-opacity-50">
           <div className="flex gap-4">
-            <DialogClose asChild>
-              <Button variant="cancel" type="button">
-                Cancel
-              </Button>
-            </DialogClose>
+            <Button variant="cancel" type="button" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+
             <ButtonWithLoader
               label="Save"
               icon={currentTheme?.uploadCloudIcon}

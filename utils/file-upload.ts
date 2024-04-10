@@ -1,9 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://acbjcaoqxkumhqkmstro.supabase.co';
-const supabaseKey =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjYmpjYW9xeGt1bWhxa21zdHJvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwOTU0ODMwNiwiZXhwIjoyMDI1MTI0MzA2fQ.UfKfDLWY5SlkcWwVT4s_ImHCrP4HexSN1WF3ceG2-Kc';
-const supabaseBuc = 'medmastero-bucket';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY!;
+const supabaseBuc = process.env.NEXT_PUBLIC_SB_BUCKET!;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -14,7 +13,6 @@ export const upload = async (file: File) => {
     let currentTime = new Date().getTime();
     let fileSplit = file.name.split('.');
     let fileName = `${fileSplit[0]}-` + currentTime + `.${fileSplit[1]}`;
-    console.log(fileName);
     const { data, error } = await supabase.storage
       .from(supabaseBuc)
       .upload('public/' + fileName, file, {
