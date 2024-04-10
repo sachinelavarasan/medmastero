@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import { app } from '@/config';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useAction } from 'next-safe-action/hook';
+
+import { app } from '@/config';
 
 import { CheckboxInput } from '@/components/CheckBoxInput';
 import { InputWithLabel } from '@/components/InputWithLabel';
@@ -17,6 +19,7 @@ import { ButtonWithLoader } from '@/components/Button';
 
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { SignUpSchema } from '@/utils/schema';
+
 import { gstVerification } from '@/app/actions/gst_verification';
 import { signUp } from '@/app/actions/authentication';
 
@@ -37,6 +40,7 @@ export default function SignUp() {
     getFieldState,
     trigger,
     watch,
+    setError,
   } = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -49,6 +53,12 @@ export default function SignUp() {
       gstin: '', //Test GST Number - 18AAACR5055K1Z6
     },
   });
+
+  const {
+    execute,
+    status,
+    result: { data,serverError },
+  } = useAction(signUp);
 
   const watchShowGst = watch('is_seller', false);
 
@@ -124,12 +134,14 @@ export default function SignUp() {
   };
 
   async function onSubmit(formData: z.infer<typeof SignUpSchema>) {
-    // alert(JSON.stringify(formData, null, 2));
-    setIsLoading(false);
-    // sending the formdata values to create a user
-    let response = await signUp(formData);
-    console.log("response",response);
-    // // const { data } = JSON.parse(response);
+    execute(formData);
+    if (data?.error) {
+      setError('email', {
+        message: data.error,
+      });
+    } else if (data?.response) {
+      router.replace('/login');
+    }
   }
 
   return (

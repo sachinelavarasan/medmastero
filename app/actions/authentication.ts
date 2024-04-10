@@ -6,15 +6,16 @@ import { eq } from 'drizzle-orm';
 import { signIn } from '@/auth';
 import { axiosInstance } from '@/lib/axios';
 import { action } from '@/lib/safe-action';
-import { ForgotPasswordSchema } from '@/utils/schema';
-import { SignUpSchema } from '@/utils/schema';
+
+import { ForgotPasswordSchema, SignUpSchema } from '@/utils/schema';
+import { hashPassword } from '@/utils/functions';
+
 import { db } from '@/database';
 import { user } from '@/database/schema';
-import { hashPassword } from '@/utils/functions';
 
 export async function authenticate(prevState: string | undefined, formData: FormData) {
   try {
-    await signIn('credentials', formData);
+     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -29,14 +30,14 @@ export async function authenticate(prevState: string | undefined, formData: Form
 }
 
 // sign up user
-export async function signUp(formData: Zod.infer<typeof SignUpSchema>) {
+export const signUp = action(SignUpSchema, async (formData: Zod.infer<typeof SignUpSchema>) => {
   try {
-    // checking if user alreay exist
+    // checking if user already exist
     const isUserExist = await db.select().from(user).where(eq(user.us_email, formData.email));
 
     // if user already exist, return false
     if (isUserExist.length) {
-      return false;
+      return { error: 'This user email is already exist in our database!' };
     }
 
     // password hashing
@@ -60,19 +61,11 @@ export async function signUp(formData: Zod.infer<typeof SignUpSchema>) {
       // inserting the user data
       newUser = await db.insert(user).values(data).returning();
     }
-    return newUser;
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
-    }
-    throw error;
+    return { response: newUser };
+  } catch (error: any) {
+    return error.response.data;
   }
-}
+});
 
 export const resetPassword = action(ForgotPasswordSchema, async ({ email }: { email: string }) => {
   const url = `${process.env.API_ENDPOINT}/api/auth/verification?email=${email}`;

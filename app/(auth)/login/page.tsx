@@ -4,22 +4,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { z } from 'zod';
+import { useFormState } from 'react-dom';
 
 import { InputWithLabel } from '@/components/InputWithLabel';
 import RedirectLink from '@/components/RedirectLink';
 import { FormField } from '@/components/ui/form';
+import { ButtonWithLoader } from '@/components/Button';
 
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { LoginSchema } from '@/utils/schema';
-import { ButtonWithLoader } from '@/components/Button';
+
+import { authenticate } from '@/app/actions/authentication';
+
 
 export default function Login() {
   const [currentTheme] = useThemeData();
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
   const {
     formState: { errors, isValid },
     control,
-    handleSubmit,
   } = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -27,10 +31,6 @@ export default function Login() {
       password: '',
     },
   });
-
-  function onSubmit(data: z.infer<typeof LoginSchema>) {
-    alert(JSON.stringify(data, null, 2));
-  }
 
   return (
     <div className="h-full flex items-center justify-center">
@@ -49,7 +49,7 @@ export default function Login() {
             Sign in to your account here
           </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <form action={dispatch} className="w-full">
             <FormField
               control={control}
               name="email"
@@ -87,11 +87,19 @@ export default function Login() {
             />
             <ButtonWithLoader
               className="w-full mt-2 font-semibold text-[0.875rem]"
-              type="submit"
+              type="button"
               label="SIGN IN"
               disabled={!isValid}
               // isLoading
             />
+            <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true">
+              {errorMessage && (
+                <>
+                  <div className="h-5 w-5 text-red-500">!</div>
+                  <p className="text-sm text-red-500">{errorMessage}</p>
+                </>
+              )}
+            </div>
           </form>
 
           <div className="w-full flex justify-between items-center mt-5">

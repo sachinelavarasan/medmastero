@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import validator from 'validator';
-import errorMap from 'zod/locales/en.js';
 
 enum Gender {
   Male = 'male',
