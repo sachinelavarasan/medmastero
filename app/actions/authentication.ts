@@ -15,8 +15,9 @@ import { user } from '@/database/schema';
 
 export async function authenticate(prevState: string | undefined, formData: FormData) {
   try {
-     await signIn('credentials', formData);
+    await signIn('credentials', formData);
   } catch (error) {
+    console.log('seccc', error);
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':

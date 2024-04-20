@@ -12,7 +12,7 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-
+      console.log(auth);
       // Determining if the user is currently on the dashboard
       const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
 
@@ -21,11 +21,9 @@ export const authConfig = {
       }
       // Handling authorization logic based on user status and location
       else if (isPrivateRoute) {
-        // Redirecting unauthenticated users to the login page when attempting to access dashboard-related pages
         if (isLoggedIn) return true;
         return false;
       } else if (isLoggedIn) {
-        // Redirecting authenticated users to the dashboard if they attempt to access authentication-related pages like login/signup
         const isOnAuth = publicRoutes.includes(nextUrl.pathname);
         if (nextUrl.pathname === '/') return Response.redirect(new URL('/admin', nextUrl));
 
@@ -35,27 +33,26 @@ export const authConfig = {
       // Allowing access for other scenarios
       return true;
     },
+    async jwt({ token }) {
+      if (token.user) {
+        return {
+          ...token,
+        };
+      }
+      return token;
+    },
+    async session({ session, user }) {
+      if (user)
+        return {
+          ...session,
+          user: {
+            ...session.user,
+          },
+        };
+      return session;
+    },
   },
-  providers: [], // Add providers with an empty array for now
-} satisfies NextAuthConfig;
 
-// callbacks: {
-//   authorized({ auth, request: { nextUrl } }) {
-//     let adminRoutes = ['/admin'],
-//       publicRoute = ['/signup', '/login', '/forgot-password', '/reset-password'];
-//     const isLoggedIn = !!auth?.user;
-//    // const isOnDashboard = nextUrl.pathname.startsWith('/member');
-//     const isAdminDashboard = adminRoutes.includes(nextUrl.pathname);
-//     if (publicRoute.includes(nextUrl.pathname)) {
-//       return true;
-//     } else if (isAdminDashboard) {
-//       if (isLoggedIn) return true;
-//       return false; // Redirect unauthenticated users to login page
-//     } else if (isLoggedIn) {
-//       return Response.redirect(new URL(nextUrl));
-//     } else if (!isLoggedIn) {
-//       return false;
-//     }
-//     return true;
-//   },
-// },
+  debug: true,
+  providers: [],
+} satisfies NextAuthConfig;

@@ -10,9 +10,7 @@ import { LoginSchema } from './utils/schema';
 import { user } from './database/schema';
 import { db } from './database';
 
-
-
-async function getUser(email: string) {
+export async function getUser(email: string) {
   try {
     // checking if user already exist
     const isUserExist = await db.query.user.findFirst({ where: eq(user.us_email, email) });
@@ -37,13 +35,14 @@ export const {
         const parsedCredentials = LoginSchema.safeParse(credentials);
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
-          const user: any = await getUser(email);
+          let user: any = await getUser(email);
 
           if (!user) return null;
           const passwordsMatch = await bcrypt.compare(password, user.us_password);
-          if (passwordsMatch) return user;
+          let userData = { id: user.us_id, name: user.us_fullname, email: user.us_email };
+          if (passwordsMatch) return userData;
         }
-
+        console.log('Invalid credentials');
         return null;
       },
     }),

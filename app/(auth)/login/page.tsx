@@ -16,7 +16,6 @@ import { LoginSchema } from '@/utils/schema';
 
 import { authenticate } from '@/app/actions/authentication';
 
-
 export default function Login() {
   const [currentTheme] = useThemeData();
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -24,6 +23,7 @@ export default function Login() {
   const {
     formState: { errors, isValid },
     control,
+    handleSubmit,
   } = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -87,7 +87,7 @@ export default function Login() {
             />
             <ButtonWithLoader
               className="w-full mt-2 font-semibold text-[0.875rem]"
-              type="button"
+              type="submit"
               label="SIGN IN"
               disabled={!isValid}
               // isLoading
