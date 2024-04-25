@@ -12,7 +12,6 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      console.log(auth);
       // Determining if the user is currently on the dashboard
       const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
 
@@ -33,26 +32,30 @@ export const authConfig = {
       // Allowing access for other scenarios
       return true;
     },
-    async jwt({ token }) {
-      if (token.user) {
+    async jwt({ token, user }) {
+      if (user) {
         return {
           ...token,
+          user: user,
         };
       }
       return token;
     },
-    async session({ session, user }) {
-      if (user)
+    async session({ session, token }) {
+      if (token.user)
         return {
           ...session,
           user: {
-            ...session.user,
+            ...token.user,
           },
         };
       return session;
     },
   },
-
+  session: {
+    strategy: 'jwt',
+  },
+  secret: process.env.AUTH_SECRET!,
   debug: true,
   providers: [],
 } satisfies NextAuthConfig;
