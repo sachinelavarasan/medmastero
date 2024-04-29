@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useId } from 'react';
 import Image from 'next/image';
 
 import { InputWithLabel } from '@/components/InputWithLabel';
@@ -26,10 +25,11 @@ import {
 } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 
-import UploadIcon from '@/public/icons/UploadIcon.svg';
 import TrashIcon from '@/public/icons/trash.svg';
+import { useThemeData } from '@/utils/hooks/useThemeData';
 
 function CompanyForm() {
+  const [currentTheme] = useThemeData();
   const {
     formState: { errors },
     control,
@@ -67,9 +67,9 @@ function CompanyForm() {
   };
 
   const branchImages = [
-    { imageUrl: UploadIcon },
+    { imageUrl: currentTheme.uploadBtnIcon },
     { imageUrl: TrashIcon },
-    { imageUrl: UploadIcon },
+    { imageUrl: currentTheme.uploadBtnIcon },
     { imageUrl: TrashIcon },
   ];
 
@@ -112,7 +112,7 @@ function CompanyForm() {
                 <ButtonWithLoader
                   label="Upload Image"
                   onClick={handleSubmit(onSubmit)}
-                  icon={UploadIcon}
+                  icon={currentTheme.uploadBtnIcon}
                   className="ml-6"
                 />
                 <ButtonWithLoader
@@ -339,7 +339,7 @@ function CompanyForm() {
                       <div className="w-full flex justify-end mt-6">
                         {branchImages.map((img, index) => (
                           <div>
-                            {index < 3 ? (
+                            {index < 5 ? (
                               <div className="h-14 w-14 rounded-sm bg-app_green border-[#E5E4E4] dark:bg-[#0C1615] dark:border-[#132826] border flex items-center justify-center ml-2 bg-opacity-10">
                                 <Image
                                   src={img.imageUrl}
@@ -399,7 +399,7 @@ function CompanyForm() {
                       <ButtonWithLoader
                         label={branchImages.length > 0 ? 'Upload More' : 'Upload Here'}
                         // onClick={handleSubmit(onSubmit)}
-                        icon={UploadIcon}
+                        icon={currentTheme.uploadBtnIcon}
                         className="ml-6"
                       />
                       {branchImages.length > 0 ? (

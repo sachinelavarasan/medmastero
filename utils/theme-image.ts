@@ -8,6 +8,7 @@ import darkAuthIcon from '../public/icons/app-logo-dark.svg';
 import succesTickDarkIcon from '../public/icons/success-dark.svg';
 import uploadImageIcon from '@/public/icons/upload-image.svg';
 import uploadCloudDarkIcon from '@/public/icons/upload-cloud-dark.svg';
+import uploadBtnDarkIcon from '@/public/icons/upload-btn-dark.svg';
 
 // light theme icons
 import lightBg from '../public/images/auth-light-bg.png';
@@ -15,6 +16,7 @@ import lightAuthIcon from '../public/icons/app-logo-light.svg';
 import succesTickLightIcon from '../public/icons/success-light.svg';
 import uploadImageLightIcon from '@/public/icons/upload-image-light.svg';
 import uploadCloudLightIcon from '@/public/icons/upload-cloud-light.svg';
+import uploadBtnLightIcon from '@/public/icons/upload-btn-light.svg';
 
 // common icon
 import notificationIcon from '../public/icons/notification.svg';
@@ -32,6 +34,7 @@ export interface ThemeDataProps {
   successTickIcon: StaticImageData;
   fileUploadIcon: StaticImageData;
   uploadCloudIcon: StaticImageData;
+  uploadBtnIcon: StaticImageData;
 }
 // Common Icons and Images type interface
 export interface CommonDataProps {
@@ -51,6 +54,7 @@ export const darkThemeData: ThemeDataProps = {
   successTickIcon: succesTickDarkIcon,
   fileUploadIcon: uploadImageIcon,
   uploadCloudIcon: uploadCloudDarkIcon,
+  uploadBtnIcon: uploadBtnDarkIcon,
 };
 
 // light theme icons
@@ -60,6 +64,7 @@ export const lightThemeData: ThemeDataProps = {
   successTickIcon: succesTickLightIcon,
   fileUploadIcon: uploadImageLightIcon,
   uploadCloudIcon: uploadCloudLightIcon,
+  uploadBtnIcon: uploadBtnLightIcon,
 };
 
 // common icons and images
