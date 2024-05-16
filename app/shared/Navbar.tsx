@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
@@ -29,11 +29,20 @@ import {
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { commonIcon } from '@/utils/theme-image';
 import ThemeSwitch from '@/components/ThemeSwitch';
-import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useUserStore } from '@/lib/stores/user-store';
 
 export default function Navbar() {
   const [currentTheme] = useThemeData();
-  const router = useRouter();
+  const { currentUser, setUser } = useUserStore((state) => state);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user) {
+      setUser(session.user);
+    }
+  }, [session?.user]);
+
   return (
     <header className="fixed flex w-full h-[70px] bg-[#FFFFFF] dark:bg-app_dark_bg items-center justify-between border-[#E5E4E4] dark:border-[#132826] border-b-[1px] shadow-sm px-3">
       <div>
@@ -73,10 +82,10 @@ export default function Navbar() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[#000000] dark:text-[#FFFFFF] text-[1rem] font-bold text-center">
-                      James bond
+                      {currentUser?.us_fullname}
                     </span>
                     <span className="text-[#787878] dark:text-[#C3C3C3] text-[0.875rem] font-normal mt-2  text-center">
-                      jamesbond@gmail.com
+                      {currentUser?.us_email}
                     </span>
                   </div>
                 </div>
@@ -175,10 +184,10 @@ export default function Navbar() {
                 </div>
                 <div className="flex justify-center flex-col">
                   <span className="text-[#000000] dark:text-[#FFFFFF] text-[14px] font-bold">
-                    James bond
+                    {currentUser?.us_fullname}
                   </span>
                   <span className="text-[#787878] dark:text-[#C3C3C3] text-[12px] font-normal">
-                    jamesbond@gmail.com
+                    {currentUser?.us_email}
                   </span>
                 </div>
               </div>

@@ -3,12 +3,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { eq } from 'drizzle-orm';
 
 import { InputWithLabel } from '@/components/InputWithLabel';
 import { FormField } from '@/components/ui/form';
+import { Gender, ProfileSchema } from '@/utils/schema';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { SelectInput } from '@/components/SelectInput';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,83 +16,50 @@ import { Button } from '@/components/ui/button';
 import { ButtonWithLoader } from '@/components/Button';
 
 import FileUpload from './file-upload';
-
-import { Gender, ProfileSchema } from '@/utils/schema';
-import { user } from '@/database/schema';
-
-import { getAllGender, getUser, updateProfile } from '@/app/actions/user';
-import { Session } from 'next-auth';
+import { useUserStore } from '@/lib/stores/user-store';
+import { useEffect } from 'react';
 
 function PersonalForm() {
-  const { data: session } = useSession();
-  const sessionUser = session?.user;
-  const [currentUser, setcurrentUser] = useState<any>(null);
-  let gender, gendersList, currentUserData;
-
+  const { currentUser } = useUserStore((state) => state);
   const {
-    formState: { errors },
+    formState: { errors, isDirty },
     control,
     handleSubmit,
+    reset,
   } = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
-      us_email: sessionUser?.us_email || '',
-      us_fullname: sessionUser?.us_fullname || '',
-      us_phone_number: sessionUser?.us_phone_number || '',
-      us_address: sessionUser?.us_address || '',
-      us_username: sessionUser?.us_username || '',
-      us_state: sessionUser?.us_state || '',
-      us_pincode: sessionUser?.us_pincode || '',
-      us_district: sessionUser?.us_district || '',
-      us_gender: sessionUser?.us_gender ? setGender(sessionUser?.us_gender) : '',
+      us_email: '',
+      us_fullname: '',
+      us_phone_number: '',
+      us_address: '',
+      us_username: '',
+      us_state: '',
+      us_pincode: '',
+      us_district: '',
+      us_gender: '',
     },
   });
 
-  function setGender(value: number) {
-    switch (value) {
-      case 1:
-        gender = Gender.Male;
-        break;
-      case 2:
-        gender = Gender.Female;
-        break;
-      case 3:
-        gender = Gender.Transgender;
-        break;
-      default:
-        gender = '';
-    }
-    return gender;
-  }
-
   useEffect(() => {
-  
-    const currentUser = async (userId: number) => {
-      console.log("userId",userId)
-      try {
-        let response = await getUser(userId);
-        setcurrentUser(response)
-      } catch (error) {
-        console.log("error",error)
-      }
-    
-      // let genders = getAllGender();
-    };
-    if (sessionUser?.us_id) {
-      console.log("sessionUser",sessionUser?.us_id)
-      currentUser(sessionUser?.us_id);
+    if (currentUser) {
+      reset({
+        us_email: currentUser?.us_email,
+        us_fullname: currentUser?.us_fullname,
+        us_phone_number: currentUser?.us_phone_number,
+        us_gender: currentUser?.us_gender == 1 ? Gender.Male : Gender.Female,
+        us_state: currentUser?.us_state,
+        us_district: currentUser?.us_district,
+        us_pincode: currentUser?.us_pincode,
+        us_address: currentUser?.us_address,
+        us_username: currentUser?.us_username,
+      });
     }
-  }, [sessionUser?.us_id]);
+  }, [currentUser]);
 
-  async function onSubmit(data: z.infer<typeof ProfileSchema>) {
-    console.log('dsfds', data);
-    if (sessionUser && sessionUser.us_id) {
-      const response = updateProfile(data, sessionUser.us_id);
-    }
-
+  function onSubmit(data: z.infer<typeof ProfileSchema>) {
     alert(JSON.stringify(data, null, 2));
   }
-  console.log(errors);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full">
@@ -114,7 +79,7 @@ function PersonalForm() {
             <Button variant="cancel" type="button">
               Cancel
             </Button>
-            <ButtonWithLoader label="Save Changes" type="submit" />
+            <ButtonWithLoader label="Save Changes" type="submit" disabled={!isDirty} />
           </div>
         </header>
         <div className="flex">
@@ -291,6 +256,7 @@ function PersonalForm() {
                   variant={errors?.us_address?.message ? 'destructive' : 'default'}>
                   Address
                 </Label>
+
                 <FormField
                   control={control}
                   name="us_address"
@@ -303,11 +269,7 @@ function PersonalForm() {
                     />
                   )}
                 />
-                {/* <Textarea
-                  placeholder="Type your address here"
-                  id="message"
-                  errorMessage={errors?.address?.message}
-                /> */}
+
                 <span
                   className={`absolute opacity-0 bottom-0 text-[0.75rem] -mb-5 text-[#EA393E] overflow-hidden text-ellipsis whitespace-nowrap max-w-full ${errors?.us_address?.message ? 'opacity-100 transition-opacity duration-200 ease-in-out' : ''} `}>
                   {errors?.us_address?.message}
