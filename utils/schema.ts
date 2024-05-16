@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import validator from 'validator';
 
-enum Gender {
+export enum Gender {
   Male = 'male',
-  Famale = 'female',
+  Female = 'female',
   Transgender = 'transgender',
 }
 
@@ -17,7 +17,6 @@ export const SignUpSchema = z
     email: z.string().email('The email you entered is invalid'),
     name: z
       .string()
-      .transform((value) => value.replaceAll(' ', ''))
       .pipe(
         z.string().min(3, {
           message: 'Name should be atleast 3 letters',
@@ -98,31 +97,29 @@ export const ResetPasswordSchema = z
   });
 
 export const ProfileSchema = z.object({
-  email: z.string().email('The email you entered is invalid'),
-  username: z
+  us_email: z.string().email('The email you entered is invalid'),
+  us_username: z
     .string()
     .refine(
       (value) => !(value.length && value.includes(' ')),
       'Username should not be include space',
     )
     .optional(),
-  name: z
+  us_fullname: z
     .string()
-    .transform((value) => value.replaceAll(' ', ''))
     .pipe(
       z.string().min(3, {
         message: 'Name should be atleast 3 letters',
       }),
     ),
-  phone: z
+  us_phone_number: z
     .string()
     .refine(
       (value) => validator.isMobilePhone(value, ['en-IN'], { strictMode: true }),
       'Type your valid phone number',
     ),
-  address: z
+  us_address: z
     .string()
-    .transform((value) => value.replaceAll(' ', ''))
     .pipe(
       z
         .string()
@@ -131,7 +128,7 @@ export const ProfileSchema = z.object({
         })
         .optional(),
     ),
-  pincode: z
+  us_pincode: z
     .string()
     .transform((value) => value.replaceAll(' ', ''))
     .pipe(
@@ -139,22 +136,23 @@ export const ProfileSchema = z.object({
         message: 'Please enter your pincode',
       }),
     ),
-  state: z.string(),
-  district: z.string(),
-  gender: z
-    .nativeEnum(Gender, {
-      errorMap: (issue, _ctx) => {
-        switch (issue.code) {
-          case 'invalid_type':
-            return { message: 'Please choose correct gender' };
-          case 'invalid_enum_value':
-            return { message: 'Please choose correct gender' };
-          default:
-            return { message: 'Please choose correct gender' };
-        }
-      },
-    })
-    .or(z.literal(''))
+  us_state: z.string(),
+  us_district: z.string(),
+  us_gender: z
+    // .nativeEnum(Gender, {
+    //   errorMap: (issue, _ctx) => {
+    //     switch (issue.code) {
+    //       case 'invalid_type':
+    //         return { message: 'Please choose correct gender' };
+    //       case 'invalid_enum_value':
+    //         return { message: 'Please choose correct gender' };
+    //       default:
+    //         return { message: 'Please choose correct gender' };
+    //     }
+    //   },
+    // })
+    // .or(z.literal(''))
+    .string()
     .optional(),
 });
 

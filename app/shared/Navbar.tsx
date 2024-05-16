@@ -29,9 +29,11 @@ import {
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { commonIcon } from '@/utils/theme-image';
 import ThemeSwitch from '@/components/ThemeSwitch';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const [currentTheme] = useThemeData();
+  const router = useRouter();
   return (
     <header className="fixed flex w-full h-[70px] bg-[#FFFFFF] dark:bg-app_dark_bg items-center justify-between border-[#E5E4E4] dark:border-[#132826] border-b-[1px] shadow-sm px-3">
       <div>
@@ -43,13 +45,15 @@ export default function Navbar() {
             side={'left'}
             className="bg-[#FFFFFF] dark:bg-app_dark_bg border-[#E5E4E4] dark:border-[#132826] w-[25rem] sm:w-[20rem] xs:w-[16rem]">
             <SheetHeader className="flex flex-row items-center justify-between space-y-0">
-              <Image
-                src={currentTheme?.authIcon}
-                alt="auth icon"
-                className="h-full w-[180px]"
-                placeholder="empty"
-                priority
-              />
+              <Link href="/" className="cursor-pointer">
+                <Image
+                  src={currentTheme?.authIcon}
+                  alt="auth icon"
+                  className="h-full w-[180px]"
+                  placeholder="empty"
+                  priority
+                />
+              </Link>
               <SheetClose className="rounded opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-1 data-[state=open]:bg-secondary border-[#008778]">
                 <X className="h-4 w-4 text-[#008778]" />
                 <span className="sr-only">Close</span>
@@ -78,9 +82,9 @@ export default function Navbar() {
                 </div>
               </div>
               <DropdownMenuSeparator className="bg-[#E5E4E4] dark:bg-[#132826]" />
-              <Link
+              <button
                 className="flex items-center gap-2 h-[44px] focus-within:bg-[#E5E5E473] dark:focus-within:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium rounded-sm px-3"
-                href="/">
+                onClick={() => router.push('/profile')}>
                 <Image
                   src={commonIcon?.dropdownUserIcon}
                   alt="auth icon"
@@ -89,7 +93,7 @@ export default function Navbar() {
                   priority
                 />
                 View profile
-              </Link>
+              </button>
               <Link
                 className="flex items-center gap-2 h-[44px] focus-within:bg-[#E5E5E473] dark:focus-within:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium rounded-sm px-3"
                 href="/">
@@ -125,14 +129,15 @@ export default function Navbar() {
             </SheetFooter>
           </SheetContent>
         </Sheet>
-
-        <Image
-          src={currentTheme?.authIcon}
-          alt="auth icon"
-          className="md:hidden h-[40px] w-[175px]"
-          placeholder="empty"
-          priority
-        />
+        <Link href="/" className="cursor-pointer">
+          <Image
+            src={currentTheme?.authIcon}
+            alt="auth icon"
+            className="md:hidden h-[40px] w-[175px]"
+            placeholder="empty"
+            priority
+          />
+        </Link>
       </div>
       <div className="flex gap-5 items-center">
         <Button className="rounded-[2.5rem] md:hidden h-9">Contact us</Button>
@@ -179,15 +184,19 @@ export default function Navbar() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-[#E5E4E4] dark:bg-[#132826]" />
-            <DropdownMenuItem className="flex items-center gap-2 h-[40px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium">
-              <Image
-                src={commonIcon?.dropdownUserIcon}
-                alt="auth icon"
-                className="h-[20px] w-[20px]"
-                placeholder="empty"
-                priority
-              />
-              View profile
+            <DropdownMenuItem className="h-[40px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826]">
+              <button
+                className="flex items-center gap-2 dark:text-[#C3C3C3] text-[#777777] font-medium"
+                onClick={() => router.push('/profile')}>
+                <Image
+                  src={commonIcon?.dropdownUserIcon}
+                  alt="auth icon"
+                  className="h-[20px] w-[20px]"
+                  placeholder="empty"
+                  priority
+                />
+                View profile
+              </button>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-2 h-[40px] focus:bg-[#E5E5E473] dark:focus:bg-[#132826] dark:text-[#C3C3C3] text-[#777777] font-medium">
               <Image

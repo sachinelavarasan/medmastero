@@ -8,8 +8,26 @@ declare module 'next-auth' {
   interface Session {
     user: {
       /** The user's postal address. */
-      address: string;
-      us_phone_number: string;
+      address: string | null;
+      us_phone_number: string | null;
+      id: string | null;
+      us_address: string | null;
+      us_country: string | null;
+      us_district: string | null;
+      us_email: string | null;
+      us_fullname: string | null;
+      us_gender: number | null;
+      us_id: number;
+      us_is_active: boolean;
+      us_is_deleted: boolean;
+      us_password: string | null;
+      us_password_salt: string | null;
+      us_phone_number: string | null;
+      us_pincode: string | null;
+      us_state: string | null;
+      us_type: number;
+      us_username: string | null;
+      us_verification_code: string | null;
     } & DefaultSession['user'];
   }
 }
