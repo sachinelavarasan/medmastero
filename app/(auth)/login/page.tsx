@@ -14,11 +14,13 @@ import { ButtonWithLoader } from '@/components/Button';
 import { useThemeData } from '@/utils/hooks/useThemeData';
 import { LoginSchema } from '@/utils/schema';
 
-import { authenticate } from '@/app/actions/authentication';
+import { useUserStore } from '@/lib/stores/user-store';
+
+import { login } from '@/app/actions/authentication';
 
 export default function Login() {
   const [currentTheme] = useThemeData();
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const { setError, setUser } = useUserStore();
 
   const {
     formState: { errors, isValid },
@@ -31,6 +33,15 @@ export default function Login() {
       password: '',
     },
   });
+
+  async function onSubmit(data: z.infer<typeof LoginSchema>) {
+    try {
+      const user = await login(data);
+      setUser(user);
+    } catch (error: any) {
+      setError(error);
+    }
+  }
 
   return (
     <div className="h-full flex items-center justify-center">
@@ -49,7 +60,7 @@ export default function Login() {
             Sign in to your account here
           </p>
 
-          <form action={dispatch} className="w-full">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <FormField
               control={control}
               name="email"
@@ -93,12 +104,12 @@ export default function Login() {
               // isLoading
             />
             <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true">
-              {errorMessage && (
+              {/* {errorMessage && (
                 <>
                   <div className="h-5 w-5 text-red-500">!</div>
                   <p className="text-sm text-red-500">{errorMessage}</p>
                 </>
-              )}
+              )} */}
             </div>
           </form>
 
