@@ -40,19 +40,19 @@ function PersonalForm() {
       us_gender: '',
     },
   });
-
+  // console.log(currentUser)
   useEffect(() => {
     if (currentUser) {
       reset({
-        us_email: currentUser?.us_email,
-        us_fullname: currentUser?.us_fullname,
-        us_phone_number: currentUser?.us_phone_number,
+        us_email: currentUser?.us_email || '',
+        us_fullname: currentUser?.us_fullname || '',
+        us_phone_number: currentUser?.us_phone_number || '',
         us_gender: currentUser?.us_gender == 1 ? Gender.Male : Gender.Female,
-        us_state: currentUser?.us_state,
-        us_district: currentUser?.us_district,
-        us_pincode: currentUser?.us_pincode,
-        us_address: currentUser?.us_address,
-        us_username: currentUser?.us_username,
+        us_state: currentUser?.us_state || '',
+        us_district: currentUser?.us_district || '',
+        us_pincode: currentUser?.us_pincode || '',
+        us_address: currentUser?.us_address || '',
+        us_username: currentUser?.us_username || '',
       });
     }
   }, [currentUser]);

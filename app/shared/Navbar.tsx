@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React, { useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from "next/navigation"
 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -36,6 +37,7 @@ export default function Navbar() {
   const [currentTheme] = useThemeData();
   const { currentUser, setUser } = useUserStore((state) => state);
   const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (session?.user) {
