@@ -1,34 +1,32 @@
 'use server';
 
+import { AuthError } from 'next-auth';
 import { eq } from 'drizzle-orm';
-import { z } from 'zod';
 
+import { signIn } from '@/auth';
 import { axiosInstance } from '@/lib/axios';
 import { action } from '@/lib/safe-action';
 
-import { ForgotPasswordSchema, LoginSchema, SignUpSchema } from '@/utils/schema';
+import { ForgotPasswordSchema, SignUpSchema } from '@/utils/schema';
 import { hashPassword } from '@/utils/functions';
 
 import { db } from '@/database';
 import { user } from '@/database/schema';
 
-export async function login(credentials: z.infer<typeof LoginSchema>) {
+export async function authenticate(prevState: string | undefined, formData: FormData) {
   try {
-    // await signIn('credentials', formData);
-    const formData = new FormData();
-    formData.append('email', credentials.email);
-    formData.append('password', credentials.password);
-
-    const url = `/api/login`;
-    console.log(formData, url);
-
-    const { data } = await axiosInstance.post(url, formData, {
-      headers: { 'Content-Type': 'multipart/formdata' },
-    });
-    return data;
-  } catch (error: any) {
-    console.log('Login Error', error.response);
-    throw error.response.data.message;
+    await signIn('credentials', formData);
+  } catch (error) {
+    console.log('seccc', error);
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
   }
 }
 
